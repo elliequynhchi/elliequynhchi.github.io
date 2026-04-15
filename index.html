@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quynh Chi | Portfolio</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
@@ -17,14 +17,13 @@
             <h2 class="role-title">Business Analyst Intern</h2>
             
             <div class="sidebar-tags">
-                <span class="s-tag">FTU</span>
-                <span class="s-tag">Business Analysis</span>
-                <span class="s-tag">Data Analysis</span>
+                <span class="s-tag">FTU Dual-Degree</span>
+                <span class="s-tag">Data Enthusiast</span>
             </div>
 
             <div class="contact-info-sidebar">
                 <p>📧 quynhchipt.work@gmail.com</p>
-                <p>📍 Dong Da, Hanoi</p>
+                <p>📍 Hanoi, Vietnam</p>
             </div>
         </aside>
 
@@ -38,44 +37,69 @@
 
             <section id="overview" class="tab-content active">
                 <div class="bio-section">
-                    <h2>Hello, you can call me Ellie! ✨</h2>
-                    <p>I am a dual-degree student at Foreign Trade University, pursuing majors in International Trade Law and International Economics. 🚀 Enthusiastic about Data Modelling and Data Analysis, I focus on programming in Python and SQL. My passion extends to crafting insightful data visualizations with Power BI, Statistical Analysis & Constructing Machine Learning Models using Python and RapidMiner.</p>
+                    <h2 class="main-greeting">Welcome to my world! ✨</h2>
+                    <p class="intro-text">Hello! I am Quynh Chi, but you can call me <strong>Ellie</strong>. I am a highly driven dual-degree student at Foreign Trade University, pursuing Bachelor's degrees in International Economics and International Trade Law.</p>
+                    
+                    <h3 class="about-heading">About Me</h3>
+                    <p class="about-text">I am deeply curious and intensely passionate about unraveling complex problems to discover elegant, data-driven solutions. I thrive when working with data processing tools and absolutely love diving into the underlying code to see how things truly work. For me, continuous learning isn't just a habit—it is a lifestyle. I am always eager to absorb new knowledge, especially when it comes to business operations, data modeling, and programming. My ultimate vision is to leverage these skills to become an exceptional Solutions Architect or Management Consultant.</p>
                 </div>
 
-                <h3>Skills & Tools</h3>
-                <div class="tags-container">
-                    <span class="tech-tag">Python</span>
-                    <span class="tech-tag">SQL</span>
-                    <span class="tech-tag">Stata</span>
-                    <span class="tech-tag">SmartPLS</span>
-                    <span class="tech-tag">RapidMiner</span>
-                    <span class="tech-tag">Power BI</span>
-                    <span class="tech-tag">MS Excel</span>
-                    <span class="tech-tag">Draw.io</span>
-                    <span class="tech-tag">A/B Testing</span>
-                    <span class="tech-tag">Requirement Management</span>
+                <div class="skills-section">
+                    <h3>Skills & Tools</h3>
+                    <div class="tags-container">
+                        <span class="tech-tag">Python (Basic)</span>
+                        <span class="tech-tag">SQL</span>
+                        <span class="tech-tag">Stata</span>
+                        <span class="tech-tag">SmartPLS</span>
+                        <span class="tech-tag">MS Excel</span>
+                        <span class="tech-tag">Process Modeling (Draw.io)</span>
+                        <span class="tech-tag">Requirement Management</span>
+                        <span class="tech-tag">A/B Testing</span>
+                        <span class="tech-tag">Data Labeling</span>
+                        <span class="tech-tag">Stakeholder Management</span>
+                        <span class="tech-tag">English</span>
+                    </div>
                 </div>
 
                 <div class="preview-group">
                     <div class="preview-header">
-                        <h3>Experience Preview</h3>
+                        <h3>Work Experience Preview</h3>
                         <span class="view-all" onclick="openTab('experience')">View all →</span>
                     </div>
                     <div class="horizontal-scroller">
                         <div class="preview-card" onclick="openTab('experience')">
-                            <img src="bellsystem_logo.png" alt="Experience">
                             <h4>Bellsystem24 Vietnam</h4>
-                            <p>Recruitment Intern - HR Analytics...</p>
+                            <p class="preview-role">Recruitment Intern</p>
+                            <p class="preview-date">07/2024 - 09/2024</p>
                         </div>
                         <div class="preview-card" onclick="openTab('experience')">
-                            <img src="sace_logo.png" alt="Experience">
-                            <h4>SACE Education</h4>
-                            <p>Academic Collaborator...</p>
+                            <h4>SACE Education Vietnam</h4>
+                            <p class="preview-role">IELTS Teaching Assistant</p>
+                            <p class="preview-date">09/2022 - 02/2023</p>
                         </div>
+                    </div>
+                </div>
+
+                <div class="preview-group">
+                    <div class="preview-header">
+                        <h3>Extracurriculars Preview</h3>
+                        <span class="view-all" onclick="openTab('experience')">View all →</span>
+                    </div>
+                    <div class="horizontal-scroller">
                         <div class="preview-card" onclick="openTab('experience')">
-                            <img src="ftu_logo.png" alt="Experience">
                             <h4>FTU Student Association</h4>
-                            <p>Organizer & Coordinator...</p>
+                            <p class="preview-role">Event Organizer</p>
+                            <p class="preview-date">10/2022 - 10/2025</p>
+                        </div>
+                        <div class="preview-card" onclick="openTab('experience')">
+                            <h4>Book and Action - BnA Hanoi</h4>
+                            <p class="preview-role">RnD Member</p>
+                            <p class="preview-date">10/2022 - 06/2023</p>
+                        </div>
+                        <div class="preview-card" onclick="openTab('experience')">
+                            <h4>Book and Action Club</h4>
+                            <p class="preview-role">President</p>
+                            <p class="preview-date">10/2019 - 01/2022</p>
                         </div>
                     </div>
                 </div>
@@ -86,85 +110,128 @@
                         <span class="view-all" onclick="openTab('projects')">View all →</span>
                     </div>
                     <div class="horizontal-scroller">
-                        <div class="preview-card" onclick="openTab('projects')">
-                            <img src="research_thumbnail.png" alt="Project">
-                            <h4>Scientific Research 2025</h4>
-                            <p>PGDA & Corporate Financial Constraints...</p>
-                        </div>
-                        <div class="preview-card" onclick="openTab('contact')">
-                            <img src="contact_img.png" alt="Contact">
-                            <h4>Let's Collaborate</h4>
-                            <p>Reach out for professional inquiries...</p>
+                        <div class="preview-card project-preview-card" onclick="openTab('projects')">
+                            <h4>Scientific Research (3rd Prize)</h4>
+                            <p class="preview-role">PGDA & Corporate Financial Constraints</p>
+                            <p class="preview-date">2024 - 2025</p>
                         </div>
                     </div>
                 </div>
             </section>
 
             <section id="experience" class="tab-content">
-                <h2>Professional Experience</h2>
-                
+                <h2 class="section-title">Work Experience</h2>
                 <div class="detailed-timeline">
                     <div class="exp-item">
                         <div class="exp-header">
                             <h3>Bellsystem24 Vietnam | Recruitment Intern</h3>
                             <span class="exp-date">07/2024 - 09/2024</span>
                         </div>
-                        <p class="exp-desc">Spearheaded data-driven recruitment strategies to optimize hiring efficiency and brand presence.</p>
                         <ul>
-                            <li><strong>Management Dashboards:</strong> Developed and maintained automated reporting systems using advanced Excel to monitor critical KPIs, including Conversion Rates, Source Effectiveness, and Lead Time.</li>
-                            <li><strong>Growth Hacking & Optimization:</strong> Conducted in-depth research into social media algorithms (Threads, Facebook) and executed rigorous A/B Testing, resulting in a 550% increase in organic reach.</li>
-                            <li><strong>Pipeline Management:</strong> Efficiently managed the end-to-end recruitment funnel, screening high volumes of applicants to secure nearly 400 CVs per month and successfully onboarding 17 permanent staff members.</li>
+                            <li><strong>Management Dashboards:</strong> Designed automated reporting systems using Excel to monitor critical metrics including Conversion rate, Source effectiveness, and Lead time.</li>
+                            <li><strong>Social Media Optimization:</strong> Researched algorithms for Threads and Facebook, executing rigorous A/B Testing that resulted in a 550% increase in organic views and generated nearly 400 CVs per month.</li>
+                            <li><strong>Funnel Management:</strong> Managed the end-to-end recruitment funnel—from contacting and screening candidates to coordinating interviews—successfully hiring 17 official personnel.</li>
                         </ul>
                     </div>
 
                     <div class="exp-item">
                         <div class="exp-header">
-                            <h3>SACE Education Vietnam | IELTS Academic Collaborator</h3>
+                            <h3>SACE Education Vietnam | IELTS Collaborator & Teaching Assistant</h3>
                             <span class="exp-date">09/2022 - 02/2023</span>
                         </div>
-                        <p class="exp-desc">Contributed to academic excellence through structured material development and student progress tracking.</p>
                         <ul>
-                            <li><strong>Curriculum Development:</strong> Researched and compiled comprehensive teaching resources for IELTS cohorts (Band 5.5-6.5), ensuring all content strictly adhered to output requirements and pedagogical goals.</li>
-                            <li><strong>Monitoring & Analysis:</strong> Built periodic academic progress reports for management and parents, identifying learning gaps and proposing data-backed improvements for classroom management.</li>
+                            <li><strong>Material Development:</strong> Researched and compiled teaching materials for IELTS classes (Band 5.5 - 6.5), ensuring content strictly adhered to output requirements.</li>
+                            <li><strong>Management & Reporting:</strong> Supported classroom management and developed periodic academic progress reports for management and parents.</li>
                         </ul>
                     </div>
+                </div>
 
+                <h2 class="section-title">Extracurricular Activities</h2>
+                <div class="detailed-timeline">
                     <div class="exp-item">
                         <div class="exp-header">
-                            <h3>Hội Sinh viên FTU | Cộng tác viên Ban Tổ chức</h3>
+                            <h3>Foreign Trade University Student Association | Organizer</h3>
                             <span class="exp-date">10/2022 - 10/2025</span>
                         </div>
                         <ul>
-                            <li>Strategized and executed large-scale student activities, managing resources and cross-functional teams to ensure operational success for the Student Association.</li>
+                            <li>Planned, conceptualized, and directly executed large-scale activities for the FTU Student Association.</li>
+                            <li>Organized prominent events with over 1000 participants, including "Duyen dang Ngoai thuong" (2023) and the university-wide blood donation festival "Happy Day" (2022, 2023, 2024).</li>
+                        </ul>
+                    </div>
+
+                    <div class="exp-item">
+                        <div class="exp-header">
+                            <h3>Book and Action Project (BnA Hanoi) | RnD Member</h3>
+                            <span class="exp-date">10/2022 - 06/2023</span>
+                        </div>
+                        <ul>
+                            <li><strong>Negotiation:</strong> Contacted high school administrators across Northern Vietnam to establish new clubs.</li>
+                            <li><strong>Management:</strong> Supervised and supported 10 active clubs in Hai Phong.</li>
+                            <li><strong>Process Standardization:</strong> Developed and transferred operational guideline documents to standardize club processes.</li>
+                        </ul>
+                    </div>
+
+                    <div class="exp-item">
+                        <div class="exp-header">
+                            <h3>Book and Action Club - Hung Yen High School | President</h3>
+                            <span class="exp-date">10/2019 - 01/2022</span>
+                        </div>
+                        <ul>
+                            <li>Managed a team of 40+ members, planned operational strategies, and allocated budgets and resources for the entire club.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h2 class="section-title">Education</h2>
+                <div class="detailed-timeline">
+                    <div class="exp-item">
+                        <div class="exp-header">
+                            <h3>Foreign Trade University</h3>
+                            <span class="exp-date">2022 - 2027</span>
+                        </div>
+                        <ul>
+                            <li><strong>Bachelor in International Economics</strong> (09/2023 - 09/2027) | GPA: 3.30/4.00</li>
+                            <li><strong>Bachelor in International Trade Law</strong> (09/2022 - 09/2026) | GPA: 3.20/4.00</li>
+                            <li><strong>Relevant Coursework:</strong> Programming for Data Analysis (Python): 9.9/10, Database (SQL): 9.0/10, Time Series Modeling: 9.9/10, Microeconomics: 9.3/10, Research Methodology: 9.0/10.</li>
+                            <li><strong>Awards:</strong> Top 20 "Heading For The Future Project: E-commerce 2025", "Student of 5 Merits" at City & University Levels (2024-2025).</li>
+                        </ul>
+                    </div>
+
+                    <div class="exp-item">
+                        <div class="exp-header">
+                            <h3>Hung Yen High School for the Gifted</h3>
+                            <span class="exp-date">09/2019 - 06/2022</span>
+                        </div>
+                        <ul>
+                            <li>Physics Major. Official member of the National Physics Olympiad Team (2021-2022).</li>
                         </ul>
                     </div>
                 </div>
             </section>
 
             <section id="projects" class="tab-content">
-                <h2>Key Research Projects</h2>
+                <h2 class="section-title">Featured Projects</h2>
                 <div class="project-grid">
                     <div class="project-card-full" onclick="openModal('project1-modal')">
                         <div class="p-info">
-                            <h3>Provincial Government Digital Attention and Corporate Financial Constraints in Vietnam</h3>
-                            <span class="badge">🏆 3rd Prize - Scientific Research 2025</span>
-                            <p>An empirical study analyzing 4,000 observations from 400 listed companies using System-GMM and text mining techniques.</p>
-                            <button class="read-more">Learn more →</button>
+                            <h3>Provincial government digital attention and corporate financial constraints in VIETNAM: the role of digitalization and ESG</h3>
+                            <span class="badge">🏆 3rd Prize - University Level Scientific Research (2024-2025)</span>
+                            <p class="click-hint">Click to view project details & methodology</p>
                         </div>
                     </div>
                 </div>
             </section>
 
             <section id="contact" class="tab-content">
-                <h2>Contact Information</h2>
+                <h2 class="section-title">Contact Information</h2>
                 <div class="contact-container">
                     <div class="contact-box">
                         <p><strong>Email:</strong> quynhchipt.work@gmail.com</p>
                         <p><strong>LinkedIn:</strong> <a href="https://linkedin.com/in/elliequynhchi/" target="_blank">linkedin.com/in/elliequynhchi/</a></p>
-                        <p><strong>Location:</strong> Thai Ha, Dong Da, Hanoi</p>
+                        <p><strong>Phone:</strong> (+84) 964 633 578</p>
                     </div>
 
-                    <form action="https://formspree.io/f/YOUR_CODE" method="POST" class="main-contact-form">
+                    <form action="https://formspree.io/f/mrerekdk" method="POST" class="main-contact-form">
                         <input type="text" name="name" placeholder="Your Full Name" required>
                         <input type="email" name="email" placeholder="Your Professional Email" required>
                         <textarea name="message" rows="5" placeholder="Message content..." required></textarea>
@@ -179,9 +246,16 @@
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('project1-modal')">&times;</span>
             <h2>Project Details</h2>
-            <p><strong>Theme:</strong> The Role of Digitalization and ESG in government initiatives.</p>
+            <p><strong>Topic:</strong> Provincial government digital attention and corporate financial constraints in VIETNAM: the role of digitalization and ESG</p>
             <hr>
-            <p>This project utilized <strong>Python</strong> for large-scale web scraping, scanning official portals of Departments of Science and Technology across 47 provinces and annual reports of 400 companies to quantify digital attention keywords. <strong>Stata</strong> was then used to run complex econometric models (System-GMM) to validate the mediation and moderation effects found in the data.</p>
+            <p><strong>Overview:</strong> This independent research explores the influence of provincial government digital attention (PGDA) on corporate financial constraints, highlighting the mediating role of digitalization and moderating role of ESG.</p>
+            
+            <h3 class="modal-subtitle">Methodology & Execution:</h3>
+            <ul>
+                <li><strong>Data Collection (Python):</strong> Programmed Python scripts to perform web scraping. Extracted and scanned official documents from the portals of Departments of Science and Technology across 47 provinces to count digital transformation-related keywords for the PGDA variable. Simultaneously scanned annual reports of 400 listed companies for the DIG variable.</li>
+                <li><strong>Data Processing (MS Excel):</strong> Aggregated, cleaned, and processed the raw scraped data to generate descriptive statistics.</li>
+                <li><strong>Econometric Analysis (Stata):</strong> Utilized Stata to analyze financial metrics and run advanced econometric models, including Generalized Method of Moments (System-GMM) and Two-Stage Least Squares (2SLS), ensuring robustness in identifying causation, mediation, and moderation effects.</li>
+            </ul>
         </div>
     </div>
 
