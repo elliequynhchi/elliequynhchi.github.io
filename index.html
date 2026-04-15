@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quỳnh Chi (Ellie) | Portfolio</title>
+    <title>Quynh Chi | Portfolio</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
@@ -13,18 +13,18 @@
             <div class="profile-img">
                 <img src="avatar_ellie.jpg" alt="Quynh Chi Profile">
             </div>
-            <h1 class="name">Quỳnh Chi (Ellie)</h1>
-            <h2 class="title">Aspiring Business Analyst</h2>
+            <h1 class="name">Quynh Chi</h1>
+            <h2 class="role-title">Business Analyst Intern</h2>
             
-            <div class="tags">
-                <span class="tag">FTU Dual-Degree</span>
-                <span class="tag">Business Analyst</span>
-                <span class="tag">Data Enthusiast</span>
+            <div class="sidebar-tags">
+                <span class="s-tag">FTU</span>
+                <span class="s-tag">Business Analysis</span>
+                <span class="s-tag">Data Analysis</span>
             </div>
 
             <div class="contact-info-sidebar">
                 <p>📧 quynhchipt.work@gmail.com</p>
-                <p>📍 Hanoi, Vietnam</p>
+                <p>📍 Dong Da, Hanoi</p>
             </div>
         </aside>
 
@@ -37,80 +37,140 @@
             </nav>
 
             <section id="overview" class="tab-content active">
-                <h2>Welcome to my world! ✨</h2>
-                <div class="bio">
-                    <p>Hello! I am Quỳnh Chi, a highly driven dual-degree student at Foreign Trade University, majoring in International Trade Law and International Economics. My journey is focused on building a solid foundation as a Business Analyst, with the ultimate vision of becoming a Solutions Architect or Management Consultant.</p>
-                    <p>I am deeply curious and intensely passionate about unraveling complex problems to discover elegant, data-driven solutions. I thrive when working with data processing tools and absolutely love diving into the underlying code to see how things truly work. For me, continuous learning isn't just a habit—it is a lifestyle. I am always eager to absorb new knowledge, especially when it comes to business operations, data modeling, and programming.</p>
+                <div class="bio-section">
+                    <h2>Hello, you can call me Ellie! ✨</h2>
+                    <p>I am a dual-degree student at Foreign Trade University, pursuing majors in International Trade Law and International Economics. 🚀 Enthusiastic about Data Modelling and Data Analysis, I focus on programming in Python and SQL. My passion extends to crafting insightful data visualizations with Power BI, Statistical Analysis & Constructing Machine Learning Models using Python and RapidMiner.</p>
                 </div>
 
                 <h3>Skills & Tools</h3>
-                <div class="skills-grid">
-                    <div class="skill-card"><strong>Data & Programming:</strong> Python, SQL, Stata, SmartPLS, MS Excel</div>
-                    <div class="skill-card"><strong>BA Operations:</strong> Process Modeling (Draw.io), Requirement Management, A/B Testing, Data Labeling</div>
-                    <div class="skill-card"><strong>Languages:</strong> English (IELTS Academic)</div>
+                <div class="tags-container">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">SQL</span>
+                    <span class="tech-tag">Stata</span>
+                    <span class="tech-tag">SmartPLS</span>
+                    <span class="tech-tag">RapidMiner</span>
+                    <span class="tech-tag">Power BI</span>
+                    <span class="tech-tag">MS Excel</span>
+                    <span class="tech-tag">Draw.io</span>
+                    <span class="tech-tag">A/B Testing</span>
+                    <span class="tech-tag">Requirement Management</span>
+                </div>
+
+                <div class="preview-group">
+                    <div class="preview-header">
+                        <h3>Experience Preview</h3>
+                        <span class="view-all" onclick="openTab('experience')">View all →</span>
+                    </div>
+                    <div class="horizontal-scroller">
+                        <div class="preview-card" onclick="openTab('experience')">
+                            <img src="bellsystem_logo.png" alt="Experience">
+                            <h4>Bellsystem24 Vietnam</h4>
+                            <p>Recruitment Intern - HR Analytics...</p>
+                        </div>
+                        <div class="preview-card" onclick="openTab('experience')">
+                            <img src="sace_logo.png" alt="Experience">
+                            <h4>SACE Education</h4>
+                            <p>Academic Collaborator...</p>
+                        </div>
+                        <div class="preview-card" onclick="openTab('experience')">
+                            <img src="ftu_logo.png" alt="Experience">
+                            <h4>FTU Student Association</h4>
+                            <p>Organizer & Coordinator...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="preview-group">
+                    <div class="preview-header">
+                        <h3>Project Preview</h3>
+                        <span class="view-all" onclick="openTab('projects')">View all →</span>
+                    </div>
+                    <div class="horizontal-scroller">
+                        <div class="preview-card" onclick="openTab('projects')">
+                            <img src="research_thumbnail.png" alt="Project">
+                            <h4>Scientific Research 2025</h4>
+                            <p>PGDA & Corporate Financial Constraints...</p>
+                        </div>
+                        <div class="preview-card" onclick="openTab('contact')">
+                            <img src="contact_img.png" alt="Contact">
+                            <h4>Let's Collaborate</h4>
+                            <p>Reach out for professional inquiries...</p>
+                        </div>
+                    </div>
                 </div>
             </section>
 
             <section id="experience" class="tab-content">
-                <h2>Experience & Extracurriculars</h2>
+                <h2>Professional Experience</h2>
                 
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <h3>Bellsystem24 Vietnam | Recruitment Intern</h3>
-                        <span class="date">07/2024 - 09/2024</span>
+                <div class="detailed-timeline">
+                    <div class="exp-item">
+                        <div class="exp-header">
+                            <h3>Bellsystem24 Vietnam | Recruitment Intern</h3>
+                            <span class="exp-date">07/2024 - 09/2024</span>
+                        </div>
+                        <p class="exp-desc">Spearheaded data-driven recruitment strategies to optimize hiring efficiency and brand presence.</p>
                         <ul>
-                            <li>Designed automated reporting dashboards on Excel to track key metrics (Conversion rate, Source effectiveness, Lead time).</li>
-                            <li>Researched Social Media algorithms and conducted A/B Testing, increasing organic views by over 550% and generating ~400 CVs/month.</li>
-                            <li>Managed the recruitment funnel, successfully hiring 17 official employees.</li>
+                            <li><strong>Management Dashboards:</strong> Developed and maintained automated reporting systems using advanced Excel to monitor critical KPIs, including Conversion Rates, Source Effectiveness, and Lead Time.</li>
+                            <li><strong>Growth Hacking & Optimization:</strong> Conducted in-depth research into social media algorithms (Threads, Facebook) and executed rigorous A/B Testing, resulting in a 550% increase in organic reach.</li>
+                            <li><strong>Pipeline Management:</strong> Efficiently managed the end-to-end recruitment funnel, screening high volumes of applicants to secure nearly 400 CVs per month and successfully onboarding 17 permanent staff members.</li>
                         </ul>
                     </div>
 
-                    <div class="timeline-item">
-                        <h3>SACE Education Vietnam | IELTS Academic Collaborator</h3>
-                        <span class="date">09/2022 - 02/2023</span>
+                    <div class="exp-item">
+                        <div class="exp-header">
+                            <h3>SACE Education Vietnam | IELTS Academic Collaborator</h3>
+                            <span class="exp-date">09/2022 - 02/2023</span>
+                        </div>
+                        <p class="exp-desc">Contributed to academic excellence through structured material development and student progress tracking.</p>
                         <ul>
-                            <li>Compiled teaching materials for IELTS classes (Band 5.5-6.5), ensuring alignment with output requirements.</li>
+                            <li><strong>Curriculum Development:</strong> Researched and compiled comprehensive teaching resources for IELTS cohorts (Band 5.5-6.5), ensuring all content strictly adhered to output requirements and pedagogical goals.</li>
+                            <li><strong>Monitoring & Analysis:</strong> Built periodic academic progress reports for management and parents, identifying learning gaps and proposing data-backed improvements for classroom management.</li>
                         </ul>
                     </div>
 
-                    <div class="timeline-item">
-                        <h3>Student Association, Foreign Trade University | Organizer</h3>
-                        <span class="date">10/2022 - 10/2025</span>
+                    <div class="exp-item">
+                        <div class="exp-header">
+                            <h3>Hội Sinh viên FTU | Cộng tác viên Ban Tổ chức</h3>
+                            <span class="exp-date">10/2022 - 10/2025</span>
+                        </div>
                         <ul>
-                            <li>Planned and directly executed activities for the FTU Student Association.</li>
+                            <li>Strategized and executed large-scale student activities, managing resources and cross-functional teams to ensure operational success for the Student Association.</li>
                         </ul>
                     </div>
                 </div>
             </section>
 
             <section id="projects" class="tab-content">
-                <h2>Featured Projects</h2>
-                <p class="subtitle">Click on a project to view the details.</p>
-                
-                <div class="project-card" onclick="openModal('project1-modal')">
-                    <div class="project-preview">
-                        <h3>Scientific Research: Provincial Government Digital Attention and Corporate Financial Constraints</h3>
-                        <p class="award">🏆 3rd Prize - University Level Scientific Research (2025)</p>
-                        <p class="summary">An in-depth analysis of how government digital initiatives affect corporate financing in Vietnam, and the moderating role of ESG.</p>
+                <h2>Key Research Projects</h2>
+                <div class="project-grid">
+                    <div class="project-card-full" onclick="openModal('project1-modal')">
+                        <div class="p-info">
+                            <h3>Provincial Government Digital Attention and Corporate Financial Constraints in Vietnam</h3>
+                            <span class="badge">🏆 3rd Prize - Scientific Research 2025</span>
+                            <p>An empirical study analyzing 4,000 observations from 400 listed companies using System-GMM and text mining techniques.</p>
+                            <button class="read-more">Learn more →</button>
+                        </div>
                     </div>
                 </div>
             </section>
 
             <section id="contact" class="tab-content">
-                <h2>Let's Connect</h2>
-                <p>I am always open to discussing new projects, creative ideas, or opportunities to be part of your visions.</p>
-                
-                <div class="contact-links">
-                    <a href="https://linkedin.com/in/elliequynhchi/" target="_blank" class="contact-btn">LinkedIn Profile</a>
-                    <a href="mailto:quynhchipt.work@gmail.com" class="contact-btn">quynhchipt.work@gmail.com</a>
-                </div>
+                <h2>Contact Information</h2>
+                <div class="contact-container">
+                    <div class="contact-box">
+                        <p><strong>Email:</strong> quynhchipt.work@gmail.com</p>
+                        <p><strong>LinkedIn:</strong> <a href="https://linkedin.com/in/elliequynhchi/" target="_blank">linkedin.com/in/elliequynhchi/</a></p>
+                        <p><strong>Location:</strong> Thai Ha, Dong Da, Hanoi</p>
+                    </div>
 
-                <form action="https://formspree.io/f/mrerekdk" method="POST" class="contact-form">
-                    <input type="text" name="name" placeholder="Your Name" required>
-                    <input type="email" name="email" placeholder="Your Email" required>
-                    <textarea name="message" rows="5" placeholder="Reason for contacting..." required></textarea>
-                    <button type="submit" class="submit-btn">Send Message</button>
-                </form>
+                    <form action="https://formspree.io/f/YOUR_CODE" method="POST" class="main-contact-form">
+                        <input type="text" name="name" placeholder="Your Full Name" required>
+                        <input type="email" name="email" placeholder="Your Professional Email" required>
+                        <textarea name="message" rows="5" placeholder="Message content..." required></textarea>
+                        <button type="submit">Submit Inquiry</button>
+                    </form>
+                </div>
             </section>
         </main>
     </div>
@@ -118,24 +178,10 @@
     <div id="project1-modal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('project1-modal')">&times;</span>
-            <h2>Provincial Government Digital Attention and Corporate Financial Constraints in Vietnam</h2>
-            <p><strong>The Role of Digitalization and ESG</strong></p>
+            <h2>Project Details</h2>
+            <p><strong>Theme:</strong> The Role of Digitalization and ESG in government initiatives.</p>
             <hr>
-            <p><strong>Overview:</strong> This independent and original research explores the influence of provincial government digital attention (PGDA) on increasing corporate financial constraints, along with the mediating role of digitalization and moderating role of ESG[cite: 165, 176].</p>
-            
-            <h3>Methodology & Tools Used:</h3>
-            <ul>
-                <li><strong>Python:</strong> Utilized for web scraping and text analysis. Scanned official documents from the Departments of Science and Technology across 47 provinces to count digital transformation-related keywords for the PGDA variable[cite: 627, 642, 622]. Similarly, scanned annual reports of listed companies for the DIG variable.</li>
-                <li><strong>MS Excel:</strong> Used to aggregate, clean, and process the descriptive statistics for 400 Vietnamese listed companies[cite: 166].</li>
-                <li><strong>Stata:</strong> Applied advanced econometric models, including the Generalized Method of Moments (System-GMM) and Two-Stage Least Squares (2SLS) regression, to analyze the relationships and ensure the reliability of the results[cite: 168, 263, 686].</li>
-            </ul>
-
-            <h3>Key Findings:</h3>
-            <ul>
-                <li>Discovered that provincial government digital attention substantially intensifies corporate financial constraints[cite: 170].</li>
-                <li>Clarified that digital transformation serves as a mediating channel, where government policies encourage enterprise digitalization, which in turn increases financial pressure due to high implementation costs[cite: 172, 918, 919].</li>
-                <li>Demonstrated that firms prioritizing Environmental, Social, and Governance (ESG) practices possess a greater capacity to mitigate financial stress and navigate these constraints[cite: 172, 131].</li>
-            </ul>
+            <p>This project utilized <strong>Python</strong> for large-scale web scraping, scanning official portals of Departments of Science and Technology across 47 provinces and annual reports of 400 companies to quantify digital attention keywords. <strong>Stata</strong> was then used to run complex econometric models (System-GMM) to validate the mediation and moderation effects found in the data.</p>
         </div>
     </div>
 
