@@ -1,0 +1,335 @@
+:root {
+    --primary-pink: #FFC0CB; /* Soft Pink */
+    --light-pink: #FFF0F5; /* Lavender Blush - Background */
+    --dark-pink: #D87093; /* Pale Violet Red - Accents */
+    --white: #FFFFFF;
+    --text-dark: #4A4A4A;
+    --text-light: #7A7A7A;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: var(--light-pink);
+    color: var(--text-dark);
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.container {
+    display: flex;
+    max-width: 1200px;
+    width: 100%;
+    background: var(--white);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(216, 112, 147, 0.15);
+    overflow: hidden;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 300px;
+    background: linear-gradient(135deg, var(--white) 0%, var(--light-pink) 100%);
+    padding: 3rem 2rem;
+    text-align: center;
+    border-right: 2px solid var(--light-pink);
+}
+
+.profile-img img {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid var(--white);
+    box-shadow: 0 5px 15px rgba(216, 112, 147, 0.2);
+    margin-bottom: 1.5rem;
+}
+
+.name {
+    font-size: 1.5rem;
+    color: var(--dark-pink);
+    margin-bottom: 0.5rem;
+}
+
+.title {
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--text-light);
+    margin-bottom: 1.5rem;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.tag {
+    background: var(--primary-pink);
+    color: var(--white);
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.contact-info-sidebar p {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-dark);
+}
+
+/* MAIN CONTENT */
+.main-content {
+    flex: 1;
+    padding: 3rem;
+    position: relative;
+}
+
+/* NAVBAR */
+.navbar {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid var(--light-pink);
+    padding-bottom: 1rem;
+}
+
+.nav-btn {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+}
+
+.nav-btn:hover, .nav-btn.active {
+    color: var(--white);
+    background: var(--dark-pink);
+}
+
+/* TABS */
+.tab-content {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+h2 {
+    color: var(--dark-pink);
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+h3 {
+    color: var(--text-dark);
+    margin: 1.5rem 0 1rem 0;
+}
+
+.bio p {
+    line-height: 1.8;
+    margin-bottom: 1rem;
+    text-align: justify;
+}
+
+/* SKILLS */
+.skills-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+.skill-card {
+    background: var(--light-pink);
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    border-left: 4px solid var(--primary-pink);
+}
+
+/* TIMELINE */
+.timeline-item {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+    border-left: 2px solid var(--primary-pink);
+    position: relative;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 5px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--dark-pink);
+}
+
+.date {
+    font-size: 0.85rem;
+    color: var(--dark-pink);
+    font-weight: 600;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.timeline-item ul {
+    padding-left: 1rem;
+    line-height: 1.6;
+}
+
+/* PROJECTS */
+.project-card {
+    background: var(--white);
+    border: 1px solid var(--primary-pink);
+    padding: 1.5rem;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(255, 192, 203, 0.4);
+}
+
+.award {
+    color: #e6a822;
+    font-weight: 600;
+    margin: 0.5rem 0;
+}
+
+.subtitle {
+    margin-bottom: 1.5rem;
+    color: var(--text-light);
+    font-style: italic;
+}
+
+/* CONTACT */
+.contact-links {
+    display: flex;
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.contact-btn {
+    text-decoration: none;
+    background: var(--primary-pink);
+    color: var(--white);
+    padding: 0.8rem 1.5rem;
+    border-radius: 25px;
+    font-weight: 500;
+    transition: background 0.3s;
+}
+
+.contact-btn:hover {
+    background: var(--dark-pink);
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+    max-width: 500px;
+}
+
+.contact-form input, .contact-form textarea {
+    padding: 1rem;
+    border: 1px solid var(--primary-pink);
+    border-radius: 10px;
+    outline: none;
+    font-family: inherit;
+}
+
+.contact-form input:focus, .contact-form textarea:focus {
+    border-color: var(--dark-pink);
+}
+
+.submit-btn {
+    background: var(--dark-pink);
+    color: var(--white);
+    border: none;
+    padding: 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: opacity 0.3s;
+}
+
+.submit-btn:hover {
+    opacity: 0.8;
+}
+
+/* MODAL */
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1000; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    background-color: rgba(0,0,0,0.5); 
+}
+
+.modal-content {
+    background-color: var(--white);
+    margin: 5% auto; 
+    padding: 2.5rem;
+    border-radius: 20px;
+    width: 80%;
+    max-width: 800px;
+    position: relative;
+    animation: fadeIn 0.3s;
+}
+
+.close-btn {
+    color: var(--text-light);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    color: var(--dark-pink);
+}
+
+.modal-content hr {
+    border: 0;
+    height: 1px;
+    background: var(--primary-pink);
+    margin: 1rem 0;
+}
+
+.modal-content ul {
+    margin-left: 1.5rem;
+    margin-top: 0.5rem;
+    line-height: 1.6;
+}
+
+.modal-content li {
+    margin-bottom: 0.5rem;
+}
