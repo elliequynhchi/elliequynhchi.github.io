@@ -6,6 +6,43 @@
     <title>Quynh Chi (Ellie) | Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
+    <!-- Authentication Modal (Sign In / Sign Up) -->
+    <div id="auth-modal" class="modal">
+        <div class="modal-content" style="max-width: 450px; margin: 10% auto; padding: 2.5rem;">
+            <span class="close-btn" onclick="closeModal('auth-modal')">&times;</span>
+            
+            <div id="auth-forms-container">
+                <div class="auth-tabs">
+                    <button class="auth-tab-btn active" id="login-tab-btn" onclick="showAuthForm('login')">Sign In</button>
+                    <button class="auth-tab-btn" id="register-tab-btn" onclick="showAuthForm('register')">Sign Up</button>
+                </div>
+                
+                <form id="login-form" class="auth-form" onsubmit="handleAuthSubmit(event, 'login')">
+                    <input type="text" id="login-username" placeholder="Username" required>
+                    <input type="password" id="login-password" placeholder="Password" required>
+                    <button type="submit" class="auth-submit-btn">Sign In</button>
+                    <div id="login-message" class="auth-message"></div>
+                </form>
+                
+                <form id="register-form" class="auth-form" style="display: none;" onsubmit="handleAuthSubmit(event, 'register')">
+                    <input type="text" id="register-username" placeholder="Choose Username" required>
+                    <input type="password" id="register-password" placeholder="Choose Password" required>
+                    <button type="submit" class="auth-submit-btn">Create Account</button>
+                    <div id="register-message" class="auth-message"></div>
+                </form>
+            </div>
+
+            <div id="logged-in-container" style="display: none;">
+                <div class="welcome-box">
+                    <span class="welcome-avatar">👑</span>
+                    <h3 id="welcome-message">Welcome!</h3>
+                    <p>You have successfully authenticated using Cloudflare D1 Database.</p>
+                    <button onclick="handleLogout()" class="logout-btn">Sign Out</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Synchronous theme initialization to prevent flash of unstyled theme
         (function() {
@@ -686,6 +723,43 @@
                 <li><strong>Data Collection (Python):</strong> Programmed scripts to perform web scraping across 47 provincial portals and annual reports of 400 listed companies to quantify digital attention keywords.</li>
                 <li><strong>Econometric Analysis (Stata):</strong> Utilized advanced models (System-GMM, 2SLS) to ensure robustness in identifying causation, mediation, and moderation effects.</li>
             </ul>
+        </div>
+    </div>
+
+    <!-- Authentication Modal (Sign In / Sign Up) -->
+    <div id="auth-modal" class="modal">
+        <div class="modal-content" style="max-width: 450px; margin: 10% auto; padding: 2.5rem;">
+            <span class="close-btn" onclick="closeModal('auth-modal')">&times;</span>
+            
+            <div id="auth-forms-container">
+                <div class="auth-tabs">
+                    <button class="auth-tab-btn active" id="login-tab-btn" onclick="showAuthForm('login')">Sign In</button>
+                    <button class="auth-tab-btn" id="register-tab-btn" onclick="showAuthForm('register')">Sign Up</button>
+                </div>
+                
+                <form id="login-form" class="auth-form" onsubmit="handleAuthSubmit(event, 'login')">
+                    <input type="text" id="login-username" placeholder="Username" required>
+                    <input type="password" id="login-password" placeholder="Password" required>
+                    <button type="submit" class="auth-submit-btn">Sign In</button>
+                    <div id="login-message" class="auth-message"></div>
+                </form>
+                
+                <form id="register-form" class="auth-form" style="display: none;" onsubmit="handleAuthSubmit(event, 'register')">
+                    <input type="text" id="register-username" placeholder="Choose Username" required>
+                    <input type="password" id="register-password" placeholder="Choose Password" required>
+                    <button type="submit" class="auth-submit-btn">Create Account</button>
+                    <div id="register-message" class="auth-message"></div>
+                </form>
+            </div>
+
+            <div id="logged-in-container" style="display: none;">
+                <div class="welcome-box">
+                    <span class="welcome-avatar">👑</span>
+                    <h3 id="welcome-message">Welcome!</h3>
+                    <p>You have successfully authenticated using Cloudflare D1 Database.</p>
+                    <button onclick="handleLogout()" class="logout-btn">Sign Out</button>
+                </div>
+            </div>
         </div>
     </div>
 
