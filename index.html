@@ -382,6 +382,27 @@
             background: var(--primary-color);
             color: var(--white);
         }
+        .auth-toggle-btn {
+            background: none;
+            border: 1px solid var(--primary-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            margin-bottom: 0.8rem;
+            margin-left: 10px;
+        }
+        .auth-toggle-btn:hover {
+            background: var(--primary-color);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body>
@@ -413,6 +434,9 @@
                 <button class="nav-btn" onclick="openTab('contact')">Contact</button>
                 <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle theme" onclick="toggleTheme()">
                     💙 Blue Theme
+                </button>
+                <button id="auth-nav-btn" class="auth-toggle-btn" onclick="openModal('auth-modal')">
+                    👤 Sign In
                 </button>
             </nav>
 
