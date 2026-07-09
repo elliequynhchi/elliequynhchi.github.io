@@ -6,44 +6,102 @@
     <title>Quynh Chi (Ellie) | Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
+    <script>
+        // Synchronous theme initialization to prevent flash of unstyled theme
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'blue';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    
     <style>
         :root {
-            /* MẢNG MÀU XANH PASTEL CHUYÊN NGHIỆP */
+            /* MẢNG MÀU XANH PASTEL CHUYÊN NGHIỆP (Mặc định) */
             --primary-color: #B4D4FF; /* Xanh pastel nhạt (Border, Tag hover) */
             --light-bg: #F0F7FF;      /* Xanh cực nhạt (Background ngoài cùng, hộp contact) */
-            --accent-blue: #5C8EAD;   /* Xanh dương nhã nhặn (Tiêu đề, Nút bấm, Icon) */
+            --accent-color: #5C8EAD;  /* Xanh dương nhã nhặn (Tiêu đề, Nút bấm, Icon) */
+            --accent-rgb: 92, 142, 173; /* RGB của --accent-color */
             --white: #FFFFFF;
             --text-dark: #2C3E50;     /* Xanh than tối (Chữ chính) */
+            --text-dark-rgb: 44, 62, 80;
             --text-muted: #607D8B;    /* Xanh xám nhạt (Chữ phụ) */
             --gold: #D4AF37;          /* Vàng kim (Giải thưởng) */
+
+            /* Biến hỗ trợ giao diện */
+            --sidebar-grad-end: #E8F2FB;
+            --border-light: #E1EDF8;
+            --navbar-border: #EAF2F8;
+            --modal-overlay-bg: rgba(44, 62, 80, 0.6);
+            --highlight-bg: #EAF2F8;
+        }
+
+        [data-theme="pink"] {
+            /* MẢNG MÀU HỒNG PASTEL DỄ THƯƠNG */
+            --primary-color: #FFC0CB; /* Hồng pastel nhạt */
+            --light-bg: #FFF0F5;      /* Hồng cực nhạt */
+            --accent-color: #D87093;  /* Hồng đậm nhã nhặn */
+            --accent-rgb: 216, 112, 147; /* RGB của --accent-color */
+            --text-dark: #333333;     /* Chữ tối */
+            --text-dark-rgb: 51, 51, 51;
+            --text-muted: #666666;    /* Chữ phụ */
+
+            /* Ghi đè giao diện hồng */
+            --sidebar-grad-end: #fff9fb;
+            --border-light: #fce4ec;
+            --navbar-border: #fef0f4;
+            --modal-overlay-bg: rgba(0, 0, 0, 0.5);
+            --highlight-bg: #fce4ec;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         body { background-color: var(--light-bg); color: var(--text-dark); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 2rem;}
 
-        .container { display: flex; max-width: 1250px; width: 100%; background: var(--white); border-radius: 20px; box-shadow: 0 10px 40px rgba(92, 142, 173, 0.15); overflow: hidden; height: 90vh; }
+        .container { display: flex; max-width: 1250px; width: 100%; background: var(--white); border-radius: 20px; box-shadow: 0 10px 40px rgba(var(--accent-rgb), 0.15); overflow: hidden; height: 90vh; }
 
         /* SIDEBAR */
-        .sidebar { width: 320px; background: linear-gradient(180deg, var(--white) 0%, #E8F2FB 100%); padding: 3rem 2rem; text-align: center; border-right: 1px solid #E1EDF8; }
-        .profile-img img { width: 160px; height: 160px; border-radius: 50%; object-fit: cover; margin-bottom: 1.5rem; border: 4px solid var(--white); box-shadow: 0 4px 15px rgba(92, 142, 173, 0.2); }
-        .name { font-size: 1.8rem; color: var(--accent-blue); margin-bottom: 0.3rem; font-weight: 600;}
+        .sidebar { width: 320px; background: linear-gradient(180deg, var(--white) 0%, var(--sidebar-grad-end) 100%); padding: 3rem 2rem; text-align: center; border-right: 1px solid var(--border-light); }
+        .profile-img img { width: 160px; height: 160px; border-radius: 50%; object-fit: cover; margin-bottom: 1.5rem; border: 4px solid var(--white); box-shadow: 0 4px 15px rgba(var(--accent-rgb), 0.2); }
+        .name { font-size: 1.8rem; color: var(--accent-color); margin-bottom: 0.3rem; font-weight: 600;}
         .role-title { font-size: 1rem; font-weight: 500; color: var(--text-muted); margin-bottom: 1.5rem; }
         .sidebar-tags { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 2rem; }
-        .s-tag { background: #E1EDF8; color: var(--accent-blue); padding: 5px 12px; border-radius: 15px; font-size: 0.75rem; font-weight: 600; }
+        .s-tag { background: var(--border-light); color: var(--accent-color); padding: 5px 12px; border-radius: 15px; font-size: 0.75rem; font-weight: 600; }
         .contact-info-sidebar p { font-size: 0.9rem; margin-bottom: 0.6rem; color: var(--text-muted);}
 
         /* MAIN CONTENT */
         .main-content { flex: 1; padding: 3rem; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--primary-color) var(--white);}
-        .navbar { display: flex; gap: 2.5rem; margin-bottom: 2.5rem; border-bottom: 2px solid #EAF2F8; }
+        .navbar { display: flex; align-items: center; gap: 2.5rem; margin-bottom: 2.5rem; border-bottom: 2px solid var(--navbar-border); }
         .nav-btn { background: none; border: none; font-size: 1.05rem; font-weight: 600; color: var(--text-muted); cursor: pointer; padding-bottom: 0.8rem; position: relative; transition: color 0.3s;}
-        .nav-btn:hover { color: var(--accent-blue); }
-        .nav-btn.active { color: var(--accent-blue); }
-        .nav-btn.active::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 100%; height: 3px; background: var(--accent-blue); border-radius: 3px; }
+        .nav-btn:hover { color: var(--accent-color); }
+        .nav-btn.active { color: var(--accent-color); }
+        .nav-btn.active::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 100%; height: 3px; background: var(--accent-color); border-radius: 3px; }
+
+        /* THEME TOGGLE BUTTON */
+        .theme-toggle-btn {
+            margin-left: auto;
+            background: none;
+            border: 1px solid var(--primary-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            margin-bottom: 0.8rem;
+        }
+        .theme-toggle-btn:hover {
+            background: var(--primary-color);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
 
         /* OVERVIEW INTRO */
-        .main-greeting { font-size: 2.2rem; color: var(--accent-blue); margin-bottom: 1rem; }
+        .main-greeting { font-size: 2.2rem; color: var(--accent-color); margin-bottom: 1rem; }
         .intro-text { font-size: 1.1rem; line-height: 1.6; margin-bottom: 2rem; color: var(--text-dark);}
-        .about-heading { font-size: 1.4rem; color: var(--accent-blue); margin-bottom: 0.8rem;}
+        .about-heading { font-size: 1.4rem; color: var(--accent-color); margin-bottom: 0.8rem;}
         .about-text { line-height: 1.8; text-align: justify; margin-bottom: 2.5rem; color: var(--text-muted);}
 
         /* AWARDS SECTION */
@@ -54,21 +112,21 @@
         .awards-list li span.icon { color: var(--gold); font-size: 1.2rem; line-height: 1.2;}
 
         /* SKILLS SECTION */
-        .skills-section h3 { font-size: 1.4rem; color: var(--accent-blue); margin-bottom: 1rem;}
+        .skills-section h3 { font-size: 1.4rem; color: var(--accent-color); margin-bottom: 1rem;}
         .skill-category { margin-bottom: 1.5rem; }
         .skill-category h4 { font-size: 1.05rem; color: var(--text-dark); margin-bottom: 0.8rem; font-weight: 600;}
         .tags-container { display: flex; flex-wrap: wrap; gap: 10px; }
-        .tech-tag { background: var(--white); border: 1px solid var(--primary-color); color: var(--accent-blue); padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; transition: all 0.3s ease; font-weight: 500;}
-        .tech-tag:hover { background: var(--accent-blue); color: var(--white); transform: translateY(-2px);}
+        .tech-tag { background: var(--white); border: 1px solid var(--primary-color); color: var(--accent-color); padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; transition: all 0.3s ease; font-weight: 500;}
+        .tech-tag:hover { background: var(--accent-color); color: var(--white); transform: translateY(-2px);}
 
         /* HORIZONTAL SCROLLER */
         .preview-group { margin-top: 3rem; margin-bottom: 2.5rem; }
         .preview-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; }
-        .preview-header h3 { font-size: 1.2rem; color: var(--accent-blue);}
-        .view-all { font-size: 0.9rem; color: var(--accent-blue); cursor: pointer; font-weight: 600; transition: opacity 0.3s;}
+        .preview-header h3 { font-size: 1.2rem; color: var(--accent-color);}
+        .view-all { font-size: 0.9rem; color: var(--accent-color); cursor: pointer; font-weight: 600; transition: opacity 0.3s;}
         .view-all:hover { opacity: 0.7;}
 
-        .horizontal-scroller { display: flex; gap: 1.5rem; overflow-x: auto; padding-bottom: 1rem; scrollbar-width: thin; scrollbar-color: var(--primary-color) #F9F9F9;}
+        .horizontal-scroller { display: flex; gap: 1.5rem; overflow-x: auto; padding-bottom: 1rem; scrollbar-width: thin; scrollbar-color: var(--primary-color) var(--white);}
         .horizontal-scroller::-webkit-scrollbar { height: 6px; }
         .horizontal-scroller::-webkit-scrollbar-thumb { background: var(--primary-color); border-radius: 10px; }
 
@@ -82,14 +140,14 @@
             cursor: pointer; 
             transition: all 0.3s ease; 
         }
-        .preview-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(92, 142, 173, 0.15); border-left-color: var(--accent-blue);}
+        .preview-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(var(--accent-rgb), 0.15); border-left-color: var(--accent-color);}
         .preview-card h4 { font-size: 1rem; margin-bottom: 0.5rem; color: var(--text-dark); line-height: 1.4;}
-        .preview-role { font-size: 0.9rem; color: var(--accent-blue); font-weight: 500; margin-bottom: 0.3rem;}
+        .preview-role { font-size: 0.9rem; color: var(--accent-color); font-weight: 500; margin-bottom: 0.3rem;}
         .preview-date { font-size: 0.8rem; color: var(--text-muted); }
-        .project-preview-card { border-left: 5px solid var(--accent-blue); }
+        .project-preview-card { border-left: 5px solid var(--accent-color); }
 
         /* SECTIONS & TABS */
-        .section-title { color: var(--accent-blue); margin: 2rem 0 1.5rem 0; font-size: 1.8rem; border-bottom: 1px dashed var(--primary-color); padding-bottom: 0.5rem;}
+        .section-title { color: var(--accent-color); margin: 2rem 0 1.5rem 0; font-size: 1.8rem; border-bottom: 1px dashed var(--primary-color); padding-bottom: 0.5rem;}
         
         .tab-content { display: none; animation: fadeIn 0.4s ease; }
         .tab-content.active { display: block; }
@@ -98,39 +156,39 @@
 
         /* TIMELINE */
         .exp-item { margin-bottom: 2.5rem; padding-left: 1.5rem; border-left: 2px solid var(--primary-color); position: relative;}
-        .exp-item::before { content: ''; position: absolute; left: -6px; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent-blue); }
+        .exp-item::before { content: ''; position: absolute; left: -6px; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent-color); }
         .exp-header { margin-bottom: 0.8rem; }
         .exp-header h3 { font-size: 1.15rem; color: var(--text-dark); margin-bottom: 0.3rem;}
-        .exp-date { font-size: 0.85rem; font-weight: 600; color: var(--accent-blue); }
+        .exp-date { font-size: 0.85rem; font-weight: 600; color: var(--accent-color); }
         .exp-item ul { margin-left: 1.2rem; }
         .exp-item li { margin-bottom: 0.6rem; font-size: 0.95rem; line-height: 1.6; color: var(--text-muted);}
         .exp-item li strong { color: var(--text-dark); }
 
         /* PROJECTS */
         .project-card-full { background: var(--white); border: 1px solid var(--primary-color); padding: 2rem; border-radius: 15px; cursor: pointer; transition: all 0.3s ease; position: relative; overflow: hidden;}
-        .project-card-full:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(92, 142, 173, 0.2); border-color: var(--accent-blue);}
+        .project-card-full:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(var(--accent-rgb), 0.2); border-color: var(--accent-color);}
         .project-card-full h3 { font-size: 1.2rem; color: var(--text-dark); margin-bottom: 1rem; line-height: 1.4;}
         .badge { display: inline-block; background: #FFF8E1; color: #B08D00; padding: 6px 12px; border-radius: 15px; font-size: 0.85rem; font-weight: 600; margin-bottom: 1.5rem; }
-        .click-hint { font-size: 0.9rem; color: var(--accent-blue); font-style: italic; font-weight: 500;}
+        .click-hint { font-size: 0.9rem; color: var(--accent-color); font-style: italic; font-weight: 500;}
 
         /* CONTACT */
         .contact-container { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; }
-        .contact-box { background: var(--light-bg); padding: 2.5rem; border-radius: 15px; height: fit-content; border: 1px solid #E1EDF8;}
+        .contact-box { background: var(--light-bg); padding: 2.5rem; border-radius: 15px; height: fit-content; border: 1px solid var(--border-light);}
         .contact-box p { margin-bottom: 1rem; color: var(--text-dark); font-size: 1.05rem;}
-        .contact-box a { color: var(--accent-blue); text-decoration: none; font-weight: 500;}
+        .contact-box a { color: var(--accent-color); text-decoration: none; font-weight: 500;}
         .contact-box a:hover { text-decoration: underline;}
         .main-contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
         .main-contact-form input, .main-contact-form textarea { padding: 14px; border: 1px solid var(--primary-color); border-radius: 10px; outline: none; font-size: 1rem; background: var(--white); color: var(--text-dark);}
-        .main-contact-form input:focus, .main-contact-form textarea:focus { border-color: var(--accent-blue); }
-        .main-contact-form button { background: var(--accent-blue); color: var(--white); border: none; padding: 14px; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 1.05rem; transition: opacity 0.3s; }
+        .main-contact-form input:focus, .main-contact-form textarea:focus { border-color: var(--accent-color); }
+        .main-contact-form button { background: var(--accent-color); color: var(--white); border: none; padding: 14px; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 1.05rem; transition: opacity 0.3s; }
         .main-contact-form button:hover { opacity: 0.8; }
 
         /* MODAL */
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(44, 62, 80, 0.6); backdrop-filter: blur(3px); overflow-y: auto;}
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: var(--modal-overlay-bg); backdrop-filter: blur(3px); overflow-y: auto;}
         .modal-content { background: var(--white); margin: 8% auto; padding: 3rem; border-radius: 20px; width: 70%; max-width: 800px; position: relative; box-shadow: 0 15px 40px rgba(0,0,0,0.2); animation: fadeIn 0.3s;}
         .close-btn { position: absolute; top: 20px; right: 25px; font-size: 2rem; color: #aaa; cursor: pointer; transition: color 0.3s;}
-        .close-btn:hover { color: var(--accent-blue); }
-        .modal-content h2 { color: var(--accent-blue); margin-bottom: 0.5rem; line-height: 1.4; font-size: 1.4rem;}
+        .close-btn:hover { color: var(--accent-color); }
+        .modal-content h2 { color: var(--accent-color); margin-bottom: 0.5rem; line-height: 1.4; font-size: 1.4rem;}
         .modal-content hr { border: none; height: 1px; background: var(--primary-color); margin: 1.5rem 0;}
         .modal-subtitle { color: var(--text-dark); margin: 1.5rem 0 1rem 0;}
         .modal-content ul { margin-left: 1.5rem; }
@@ -165,6 +223,9 @@
                 <button class="nav-btn" onclick="openTab('experience')">Experience</button>
                 <button class="nav-btn" onclick="openTab('projects')">Projects</button>
                 <button class="nav-btn" onclick="openTab('contact')">Contact</button>
+                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle theme" onclick="toggleTheme()">
+                    💙 Blue Theme
+                </button>
             </nav>
 
             <section id="overview" class="tab-content active">
@@ -383,8 +444,8 @@
                 <p><strong>Overview:</strong> This independent research explores the influence of provincial government digital attention (PGDA) on corporate financial constraints, highlighting the mediating role of digitalization and the moderating role of ESG within the context of Vietnam's evolving digital landscape. </p>
             </div>
             
-            <div class="publication-highlight" style="background: #EAF2F8; padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; border-left: 5px solid var(--accent-blue);">
-                <h3 style="margin-top: 0; color: var(--accent-blue); font-size: 1.2rem;">📰 Recognition & Publication</h3>
+            <div class="publication-highlight" style="background: var(--highlight-bg); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; border-left: 5px solid var(--accent-color);">
+                <h3 style="margin-top: 0; color: var(--accent-color); font-size: 1.2rem;">📰 Recognition & Publication</h3>
                 <p style="margin: 0.5rem 0; color: var(--text-dark); font-weight: 500;">
                     The findings of this research were officially published in:
                 </p>
@@ -393,7 +454,7 @@
                     (The Impact of Digital Transformation on Financial Constraints in Listed Companies in Vietnam) 
                     - <strong>Tạp chí Tài chính Doanh nghiệp (Corporate Finance Magazine)</strong>, March 2025 Issue.
                 </p>
-                <a href="https://taichinhdoanhnghiep.net.vn/tap-chi-tai-chinh-doanh-nghiep-so-thang-3-2025-i93.html#carousel__slide23" target="_blank" style="display: inline-block; color: var(--accent-blue); text-decoration: none; font-weight: 600; border: 1px solid var(--accent-blue); padding: 6px 15px; border-radius: 6px; transition: 0.3s;">
+                <a href="https://taichinhdoanhnghiep.net.vn/tap-chi-tai-chinh-doanh-nghiep-so-thang-3-2025-i93.html#carousel__slide23" target="_blank" style="display: inline-block; color: var(--accent-color); text-decoration: none; font-weight: 600; border: 1px solid var(--accent-color); padding: 6px 15px; border-radius: 6px; transition: 0.3s;">
                     📖 View Journal Publication
                 </a>
                 <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-dark);">
@@ -448,6 +509,27 @@
                 event.target.style.display = 'none'; 
             } 
         }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'pink' ? 'blue' : 'pink';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeButton(newTheme);
+        }
+
+        function updateThemeButton(theme) {
+            const btn = document.getElementById('theme-toggle');
+            if (btn) {
+                btn.innerHTML = theme === 'pink' ? '🌸 Pink Theme' : '💙 Blue Theme';
+            }
+        }
+
+        // Initialize button text on load
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'blue';
+            updateThemeButton(savedTheme);
+        });
     </script>
 </body>
 </html>
