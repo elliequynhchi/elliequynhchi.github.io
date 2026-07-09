@@ -43,6 +43,43 @@
         </div>
     </div>
 
+    <!-- Authentication Modal (Sign In / Sign Up) -->
+    <div id="auth-modal" class="modal">
+        <div class="modal-content" style="max-width: 450px; margin: 10% auto; padding: 2.5rem;">
+            <span class="close-btn" onclick="closeModal('auth-modal')">&times;</span>
+            
+            <div id="auth-forms-container">
+                <div class="auth-tabs">
+                    <button class="auth-tab-btn active" id="login-tab-btn" onclick="showAuthForm('login')">Sign In</button>
+                    <button class="auth-tab-btn" id="register-tab-btn" onclick="showAuthForm('register')">Sign Up</button>
+                </div>
+                
+                <form id="login-form" class="auth-form" onsubmit="handleAuthSubmit(event, 'login')">
+                    <input type="text" id="login-username" placeholder="Username" required>
+                    <input type="password" id="login-password" placeholder="Password" required>
+                    <button type="submit" class="auth-submit-btn">Sign In</button>
+                    <div id="login-message" class="auth-message"></div>
+                </form>
+                
+                <form id="register-form" class="auth-form" style="display: none;" onsubmit="handleAuthSubmit(event, 'register')">
+                    <input type="text" id="register-username" placeholder="Choose Username" required>
+                    <input type="password" id="register-password" placeholder="Choose Password" required>
+                    <button type="submit" class="auth-submit-btn">Create Account</button>
+                    <div id="register-message" class="auth-message"></div>
+                </form>
+            </div>
+
+            <div id="logged-in-container" style="display: none;">
+                <div class="welcome-box">
+                    <span class="welcome-avatar">👑</span>
+                    <h3 id="welcome-message">Welcome!</h3>
+                    <p>You have successfully authenticated using Cloudflare D1 Database.</p>
+                    <button onclick="handleLogout()" class="logout-btn">Sign Out</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Synchronous theme initialization to prevent flash of unstyled theme
         (function() {
@@ -443,6 +480,16 @@
     </style>
 </head>
 <body>
+    <!-- Canvas for Fireworks Success Animation -->
+    <canvas id="fireworks-canvas"></canvas>
+
+    <!-- Cute Mascot for Success Flipping -->
+    <div id="mascot-container">
+        <div class="mascot-bubble">
+            Yay! You logged in! 🐾
+        </div>
+        <div class="mascot-character">😺</div>
+    </div>
     <div class="container">
         <aside class="sidebar">
             <div class="profile-img">
@@ -763,6 +810,43 @@
         </div>
     </div>
 
+    <!-- Authentication Modal (Sign In / Sign Up) -->
+    <div id="auth-modal" class="modal">
+        <div class="modal-content" style="max-width: 450px; margin: 10% auto; padding: 2.5rem;">
+            <span class="close-btn" onclick="closeModal('auth-modal')">&times;</span>
+            
+            <div id="auth-forms-container">
+                <div class="auth-tabs">
+                    <button class="auth-tab-btn active" id="login-tab-btn" onclick="showAuthForm('login')">Sign In</button>
+                    <button class="auth-tab-btn" id="register-tab-btn" onclick="showAuthForm('register')">Sign Up</button>
+                </div>
+                
+                <form id="login-form" class="auth-form" onsubmit="handleAuthSubmit(event, 'login')">
+                    <input type="text" id="login-username" placeholder="Username" required>
+                    <input type="password" id="login-password" placeholder="Password" required>
+                    <button type="submit" class="auth-submit-btn">Sign In</button>
+                    <div id="login-message" class="auth-message"></div>
+                </form>
+                
+                <form id="register-form" class="auth-form" style="display: none;" onsubmit="handleAuthSubmit(event, 'register')">
+                    <input type="text" id="register-username" placeholder="Choose Username" required>
+                    <input type="password" id="register-password" placeholder="Choose Password" required>
+                    <button type="submit" class="auth-submit-btn">Create Account</button>
+                    <div id="register-message" class="auth-message"></div>
+                </form>
+            </div>
+
+            <div id="logged-in-container" style="display: none;">
+                <div class="welcome-box">
+                    <span class="welcome-avatar">👑</span>
+                    <h3 id="welcome-message">Welcome!</h3>
+                    <p>You have successfully authenticated using Cloudflare D1 Database.</p>
+                    <button onclick="handleLogout()" class="logout-btn">Sign Out</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         function openTab(tabName) {
             const tabContents = document.querySelectorAll('.tab-content');
@@ -815,7 +899,214 @@
         window.addEventListener('DOMContentLoaded', () => {
             const savedTheme = localStorage.getItem('theme') || 'blue';
             updateThemeButton(savedTheme);
+            
+            const savedSession = localStorage.getItem('user-session');
+            updateSessionView(savedSession);
         });
+
+        // AUTHENTICATION INTERACTION LOGIC
+        function showAuthForm(type) {
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            const loginBtn = document.getElementById('login-tab-btn');
+            const registerBtn = document.getElementById('register-tab-btn');
+            
+            if (type === 'login') {
+                loginForm.style.display = 'flex';
+                registerForm.style.display = 'none';
+                loginBtn.classList.add('active');
+                registerBtn.classList.remove('active');
+            } else {
+                loginForm.style.display = 'none';
+                registerForm.style.display = 'flex';
+                loginBtn.classList.remove('active');
+                registerBtn.classList.add('active');
+            }
+        }
+
+        async function handleAuthSubmit(event, type) {
+            event.preventDefault();
+            const messageDiv = document.getElementById(`${type}-message`);
+            messageDiv.className = 'auth-message';
+            messageDiv.innerHTML = '';
+            
+            const usernameInput = document.getElementById(`${type}-username`);
+            const passwordInput = document.getElementById(`${type}-password`);
+            
+            const username = usernameInput.value;
+            const password = passwordInput.value;
+            
+            try {
+                const response = await fetch(`/api/auth?action=${type}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    messageDiv.className = 'auth-message error';
+                    messageDiv.innerHTML = data.error || 'An error occurred.';
+                    return;
+                }
+                
+                messageDiv.className = 'auth-message success';
+                messageDiv.innerHTML = data.message;
+                
+                if (type === 'register') {
+                    usernameInput.value = '';
+                    passwordInput.value = '';
+                    setTimeout(() => {
+                        showAuthForm('login');
+                        const loginUser = document.getElementById('login-username');
+                        if (loginUser) loginUser.value = username;
+                    }, 1500);
+                } else {
+                    // Login successful!
+                    localStorage.setItem('user-session', data.user);
+                    updateSessionView(data.user);
+                    
+                    // Close modal and trigger animations
+                    setTimeout(() => {
+                        closeModal('auth-modal');
+                    }, 800);
+                    startFireworks();
+                    triggerMascotFlip();
+                }
+            } catch (err) {
+                messageDiv.className = 'auth-message error';
+                messageDiv.innerHTML = 'Could not connect to the authentication server.';
+            }
+        }
+
+        function updateSessionView(username) {
+            const authContainer = document.getElementById('auth-forms-container');
+            const welcomeContainer = document.getElementById('logged-in-container');
+            const welcomeMsg = document.getElementById('welcome-message');
+            const navBtn = document.getElementById('auth-nav-btn');
+            
+            if (username) {
+                authContainer.style.display = 'none';
+                welcomeContainer.style.display = 'block';
+                welcomeMsg.innerHTML = `Hi, ${username}! ✨`;
+                if (navBtn) navBtn.innerHTML = `👤 Hi, ${username}`;
+            } else {
+                authContainer.style.display = 'block';
+                welcomeContainer.style.display = 'none';
+                if (navBtn) navBtn.innerHTML = `👤 Sign In`;
+            }
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('user-session');
+            updateSessionView(null);
+            document.getElementById('login-username').value = '';
+            document.getElementById('login-password').value = '';
+            document.getElementById('login-message').innerHTML = '';
+        }
+
+        // MASCOT FLIPPING ANIMATION TRIGGER
+        function triggerMascotFlip() {
+            const mascot = document.getElementById('mascot-container');
+            if (!mascot) return;
+            mascot.classList.remove('mascot-active');
+            // Force reflow to restart animation
+            void mascot.offsetWidth;
+            mascot.classList.add('mascot-active');
+            
+            setTimeout(() => {
+                mascot.classList.remove('mascot-active');
+            }, 5000);
+        }
+
+        // CANVAS FIREWORKS PARTICLE ENGINE
+        function startFireworks() {
+            const canvas = document.getElementById('fireworks-canvas');
+            if (!canvas) return;
+            canvas.style.display = 'block';
+            const ctx = canvas.getContext('2d');
+            let animationFrameId;
+            
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resize);
+            resize();
+            
+            const particles = [];
+            const colors = ['#FF4D6D', '#3F8EFC', '#FFB020', '#A0CFFF', '#FFD1DC', '#4CAF50', '#E040FB'];
+            
+            class Particle {
+                constructor(x, y, color) {
+                    this.x = x;
+                    this.y = y;
+                    this.color = color;
+                    this.angle = Math.random() * Math.PI * 2;
+                    this.speed = Math.random() * 5 + 3;
+                    this.friction = 0.95;
+                    this.gravity = 0.08;
+                    this.alpha = 1;
+                    this.decay = Math.random() * 0.015 + 0.01;
+                }
+                update() {
+                    this.speed *= this.friction;
+                    this.x += Math.cos(this.angle) * this.speed;
+                    this.y += Math.sin(this.angle) * this.speed + this.gravity;
+                    this.alpha -= this.decay;
+                }
+                draw() {
+                    ctx.save();
+                    ctx.globalAlpha = this.alpha;
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                }
+            }
+            
+            function createExplosion(x, y) {
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                for (let i = 0; i < 60; i++) {
+                    particles.push(new Particle(x, y, color));
+                }
+            }
+            
+            let lastLaunch = 0;
+            function loop(timestamp) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                if (timestamp - lastLaunch > 350) {
+                    createExplosion(
+                        Math.random() * canvas.width, 
+                        Math.random() * (canvas.height * 0.5) + canvas.height * 0.1
+                    );
+                    lastLaunch = timestamp;
+                }
+                
+                for (let i = particles.length - 1; i >= 0; i--) {
+                    particles[i].update();
+                    if (particles[i].alpha <= 0) {
+                        particles.splice(i, 1);
+                    } else {
+                        particles[i].draw();
+                    }
+                }
+                
+                animationFrameId = requestAnimationFrame(loop);
+            }
+            
+            requestAnimationFrame(loop);
+            
+            setTimeout(() => {
+                cancelAnimationFrame(animationFrameId);
+                window.removeEventListener('resize', resize);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                canvas.style.display = 'none';
+            }, 5000);
+        }
     </script>
 </body>
 </html>
