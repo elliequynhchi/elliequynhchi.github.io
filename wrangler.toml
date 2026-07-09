@@ -1,0 +1,7 @@
+name = "elliequynhchi"
+pages_build_output_dir = "."
+
+[[d1_databases]]
+binding = "DB"
+database_name = "ellie-db"
+database_id = "81a188d3-c9a7-4da8-85ac-3f4a9dd283ea"
