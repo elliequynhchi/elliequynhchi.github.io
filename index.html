@@ -1,1112 +1,1257 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quynh Chi (Ellie) | Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Authentication Modal (Sign In / Sign Up) -->
-    <div id="auth-modal" class="modal">
-        <div class="modal-content" style="max-width: 450px; margin: 10% auto; padding: 2.5rem;">
-            <span class="close-btn" onclick="closeModal('auth-modal')">&times;</span>
-            
-            <div id="auth-forms-container">
-                <div class="auth-tabs">
-                    <button class="auth-tab-btn active" id="login-tab-btn" onclick="showAuthForm('login')">Sign In</button>
-                    <button class="auth-tab-btn" id="register-tab-btn" onclick="showAuthForm('register')">Sign Up</button>
-                </div>
-                
-                <form id="login-form" class="auth-form" onsubmit="handleAuthSubmit(event, 'login')">
-                    <input type="text" id="login-username" placeholder="Username" required>
-                    <input type="password" id="login-password" placeholder="Password" required>
-                    <button type="submit" class="auth-submit-btn">Sign In</button>
-                    <div id="login-message" class="auth-message"></div>
-                </form>
-                
-                <form id="register-form" class="auth-form" style="display: none;" onsubmit="handleAuthSubmit(event, 'register')">
-                    <input type="text" id="register-username" placeholder="Choose Username" required>
-                    <input type="password" id="register-password" placeholder="Choose Password" required>
-                    <button type="submit" class="auth-submit-btn">Create Account</button>
-                    <div id="register-message" class="auth-message"></div>
-                </form>
-            </div>
-
-            <div id="logged-in-container" style="display: none;">
-                <div class="welcome-box">
-                    <span class="welcome-avatar">👑</span>
-                    <h3 id="welcome-message">Welcome!</h3>
-                    <p>You have successfully authenticated using Cloudflare D1 Database.</p>
-                    <button onclick="handleLogout()" class="logout-btn">Sign Out</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Authentication Modal (Sign In / Sign Up) -->
-    <div id="auth-modal" class="modal">
-        <div class="modal-content" style="max-width: 450px; margin: 10% auto; padding: 2.5rem;">
-            <span class="close-btn" onclick="closeModal('auth-modal')">&times;</span>
-            
-            <div id="auth-forms-container">
-                <div class="auth-tabs">
-                    <button class="auth-tab-btn active" id="login-tab-btn" onclick="showAuthForm('login')">Sign In</button>
-                    <button class="auth-tab-btn" id="register-tab-btn" onclick="showAuthForm('register')">Sign Up</button>
-                </div>
-                
-                <form id="login-form" class="auth-form" onsubmit="handleAuthSubmit(event, 'login')">
-                    <input type="text" id="login-username" placeholder="Username" required>
-                    <input type="password" id="login-password" placeholder="Password" required>
-                    <button type="submit" class="auth-submit-btn">Sign In</button>
-                    <div id="login-message" class="auth-message"></div>
-                </form>
-                
-                <form id="register-form" class="auth-form" style="display: none;" onsubmit="handleAuthSubmit(event, 'register')">
-                    <input type="text" id="register-username" placeholder="Choose Username" required>
-                    <input type="password" id="register-password" placeholder="Choose Password" required>
-                    <button type="submit" class="auth-submit-btn">Create Account</button>
-                    <div id="register-message" class="auth-message"></div>
-                </form>
-            </div>
-
-            <div id="logged-in-container" style="display: none;">
-                <div class="welcome-box">
-                    <span class="welcome-avatar">👑</span>
-                    <h3 id="welcome-message">Welcome!</h3>
-                    <p>You have successfully authenticated using Cloudflare D1 Database.</p>
-                    <button onclick="handleLogout()" class="logout-btn">Sign Out</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Synchronous theme initialization to prevent flash of unstyled theme
-        (function() {
-            const savedTheme = localStorage.getItem('theme') || 'blue';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-        })();
-    </script>
-    
-    <style>
-        :root {
-            /* MẢNG MÀU XANH PASTEL CHUYÊN NGHIỆP (Mặc định) */
-            --primary-color: #B4D4FF; /* Xanh pastel nhạt (Border, Tag hover) */
-            --light-bg: #F0F7FF;      /* Xanh cực nhạt (Background ngoài cùng, hộp contact) */
-            --accent-color: #5C8EAD;  /* Xanh dương nhã nhặn (Tiêu đề, Nút bấm, Icon) */
-            --accent-rgb: 92, 142, 173; /* RGB của --accent-color */
-            --white: #FFFFFF;
-            --text-dark: #2C3E50;     /* Xanh than tối (Chữ chính) */
-            --text-dark-rgb: 44, 62, 80;
-            --text-muted: #607D8B;    /* Xanh xám nhạt (Chữ phụ) */
-            --gold: #D4AF37;          /* Vàng kim (Giải thưởng) */
-
-            /* Biến hỗ trợ giao diện */
-            --sidebar-grad-end: #E8F2FB;
-            --border-light: #E1EDF8;
-            --navbar-border: #EAF2F8;
-            --modal-overlay-bg: rgba(44, 62, 80, 0.6);
-            --highlight-bg: #EAF2F8;
-        }
-
-        [data-theme="pink"] {
-            /* MẢNG MÀU HỒNG PASTEL DỄ THƯƠNG */
-            --primary-color: #FFC0CB; /* Hồng pastel nhạt */
-            --light-bg: #FFF0F5;      /* Hồng cực nhạt */
-            --accent-color: #D87093;  /* Hồng đậm nhã nhặn */
-            --accent-rgb: 216, 112, 147; /* RGB của --accent-color */
-            --text-dark: #333333;     /* Chữ tối */
-            --text-dark-rgb: 51, 51, 51;
-            --text-muted: #666666;    /* Chữ phụ */
-
-            /* Ghi đè giao diện hồng */
-            --sidebar-grad-end: #fff9fb;
-            --border-light: #fce4ec;
-            --navbar-border: #fef0f4;
-            --modal-overlay-bg: rgba(0, 0, 0, 0.5);
-            --highlight-bg: #fce4ec;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background-color: var(--light-bg); color: var(--text-dark); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 2rem;}
-
-        .container { display: flex; max-width: 1250px; width: 100%; background: var(--white); border-radius: 20px; box-shadow: 0 10px 40px rgba(var(--accent-rgb), 0.15); overflow: hidden; height: 90vh; }
-
-        /* SIDEBAR */
-        .sidebar { width: 320px; background: linear-gradient(180deg, var(--white) 0%, var(--sidebar-grad-end) 100%); padding: 3rem 2rem; text-align: center; border-right: 1px solid var(--border-light); }
-        .profile-img img { width: 160px; height: 160px; border-radius: 50%; object-fit: cover; margin-bottom: 1.5rem; border: 4px solid var(--white); box-shadow: 0 4px 15px rgba(var(--accent-rgb), 0.2); }
-        .name { font-size: 1.8rem; color: var(--accent-color); margin-bottom: 0.3rem; font-weight: 600;}
-        .role-title { font-size: 1rem; font-weight: 500; color: var(--text-muted); margin-bottom: 1.5rem; }
-        .sidebar-tags { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 2rem; }
-        .s-tag { background: var(--border-light); color: var(--accent-color); padding: 5px 12px; border-radius: 15px; font-size: 0.75rem; font-weight: 600; }
-        .contact-info-sidebar p { font-size: 0.9rem; margin-bottom: 0.6rem; color: var(--text-muted);}
-
-        /* MAIN CONTENT */
-        .main-content { flex: 1; padding: 3rem; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--primary-color) var(--white);}
-        .navbar { display: flex; align-items: center; gap: 2.5rem; margin-bottom: 2.5rem; border-bottom: 2px solid var(--navbar-border); }
-        .nav-btn { background: none; border: none; font-size: 1.05rem; font-weight: 600; color: var(--text-muted); cursor: pointer; padding-bottom: 0.8rem; position: relative; transition: color 0.3s;}
-        .nav-btn:hover { color: var(--accent-color); }
-        .nav-btn.active { color: var(--accent-color); }
-        .nav-btn.active::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 100%; height: 3px; background: var(--accent-color); border-radius: 3px; }
-
-        /* THEME TOGGLE BUTTON */
-        .theme-toggle-btn {
-            margin-left: auto;
-            background: none;
-            border: 1px solid var(--primary-color);
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--accent-color);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-            margin-bottom: 0.8rem;
-        }
-        .theme-toggle-btn:hover {
-            background: var(--primary-color);
-            color: var(--white);
-            transform: translateY(-2px);
-        }
-
-        /* OVERVIEW INTRO */
-        .main-greeting { font-size: 2.2rem; color: var(--accent-color); margin-bottom: 1rem; }
-        .intro-text { font-size: 1.1rem; line-height: 1.6; margin-bottom: 2rem; color: var(--text-dark);}
-        .about-heading { font-size: 1.4rem; color: var(--accent-color); margin-bottom: 0.8rem;}
-        .about-text { line-height: 1.8; text-align: justify; margin-bottom: 2.5rem; color: var(--text-muted);}
-
-        /* AWARDS SECTION */
-        .awards-section { margin-bottom: 2.5rem; background: #FFFDF5; border: 1px solid #FDE7A6; padding: 1.5rem; border-radius: 15px;}
-        .awards-section h3 { font-size: 1.3rem; color: var(--gold); margin-bottom: 1rem;}
-        .awards-list { list-style: none; padding-left: 0.5rem;}
-        .awards-list li { font-size: 1rem; margin-bottom: 0.6rem; color: var(--text-dark); display: flex; align-items: flex-start; gap: 10px;}
-        .awards-list li span.icon { color: var(--gold); font-size: 1.2rem; line-height: 1.2;}
-
-        /* SKILLS SECTION */
-        .skills-section h3 { font-size: 1.4rem; color: var(--accent-color); margin-bottom: 1rem;}
-        .skill-category { margin-bottom: 1.5rem; }
-        .skill-category h4 { font-size: 1.05rem; color: var(--text-dark); margin-bottom: 0.8rem; font-weight: 600;}
-        .tags-container { display: flex; flex-wrap: wrap; gap: 10px; }
-        .tech-tag { background: var(--white); border: 1px solid var(--primary-color); color: var(--accent-color); padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; transition: all 0.3s ease; font-weight: 500;}
-        .tech-tag:hover { background: var(--accent-color); color: var(--white); transform: translateY(-2px);}
-
-        /* HORIZONTAL SCROLLER */
-        .preview-group { margin-top: 3rem; margin-bottom: 2.5rem; }
-        .preview-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; }
-        .preview-header h3 { font-size: 1.2rem; color: var(--accent-color);}
-        .view-all { font-size: 0.9rem; color: var(--accent-color); cursor: pointer; font-weight: 600; transition: opacity 0.3s;}
-        .view-all:hover { opacity: 0.7;}
-
-        .horizontal-scroller { display: flex; gap: 1.5rem; overflow-x: auto; padding-bottom: 1rem; scrollbar-width: thin; scrollbar-color: var(--primary-color) var(--white);}
-        .horizontal-scroller::-webkit-scrollbar { height: 6px; }
-        .horizontal-scroller::-webkit-scrollbar-thumb { background: var(--primary-color); border-radius: 10px; }
-
-        .preview-card { 
-            min-width: 260px; 
-            background: var(--white); 
-            border-left: 5px solid var(--primary-color); 
-            border-top: 1px solid #F0F0F0; border-right: 1px solid #F0F0F0; border-bottom: 1px solid #F0F0F0;
-            border-radius: 10px; 
-            padding: 1.5rem; 
-            cursor: pointer; 
-            transition: all 0.3s ease; 
-        }
-        .preview-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(var(--accent-rgb), 0.15); border-left-color: var(--accent-color);}
-        .preview-card h4 { font-size: 1rem; margin-bottom: 0.5rem; color: var(--text-dark); line-height: 1.4;}
-        .preview-role { font-size: 0.9rem; color: var(--accent-color); font-weight: 500; margin-bottom: 0.3rem;}
-        .preview-date { font-size: 0.8rem; color: var(--text-muted); }
-        .project-preview-card { border-left: 5px solid var(--accent-color); }
-
-        /* SECTIONS & TABS */
-        .section-title { color: var(--accent-color); margin: 2rem 0 1.5rem 0; font-size: 1.8rem; border-bottom: 1px dashed var(--primary-color); padding-bottom: 0.5rem;}
-        
-        .tab-content { display: none; animation: fadeIn 0.4s ease; }
-        .tab-content.active { display: block; }
-        
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* TIMELINE */
-        .exp-item { margin-bottom: 2.5rem; padding-left: 1.5rem; border-left: 2px solid var(--primary-color); position: relative;}
-        .exp-item::before { content: ''; position: absolute; left: -6px; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent-color); }
-        .exp-header { margin-bottom: 0.8rem; }
-        .exp-header h3 { font-size: 1.15rem; color: var(--text-dark); margin-bottom: 0.3rem;}
-        .exp-date { font-size: 0.85rem; font-weight: 600; color: var(--accent-color); }
-        .exp-item ul { margin-left: 1.2rem; }
-        .exp-item li { margin-bottom: 0.6rem; font-size: 0.95rem; line-height: 1.6; color: var(--text-muted);}
-        .exp-item li strong { color: var(--text-dark); }
-
-        /* PROJECTS */
-        .project-card-full { background: var(--white); border: 1px solid var(--primary-color); padding: 2rem; border-radius: 15px; cursor: pointer; transition: all 0.3s ease; position: relative; overflow: hidden;}
-        .project-card-full:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(var(--accent-rgb), 0.2); border-color: var(--accent-color);}
-        .project-card-full h3 { font-size: 1.2rem; color: var(--text-dark); margin-bottom: 1rem; line-height: 1.4;}
-        .badge { display: inline-block; background: #FFF8E1; color: #B08D00; padding: 6px 12px; border-radius: 15px; font-size: 0.85rem; font-weight: 600; margin-bottom: 1.5rem; }
-        .click-hint { font-size: 0.9rem; color: var(--accent-color); font-style: italic; font-weight: 500;}
-
-        /* CONTACT */
-        .contact-container { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; }
-        .contact-box { background: var(--light-bg); padding: 2.5rem; border-radius: 15px; height: fit-content; border: 1px solid var(--border-light);}
-        .contact-box p { margin-bottom: 1rem; color: var(--text-dark); font-size: 1.05rem;}
-        .contact-box a { color: var(--accent-color); text-decoration: none; font-weight: 500;}
-        .contact-box a:hover { text-decoration: underline;}
-        .main-contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
-        .main-contact-form input, .main-contact-form textarea { padding: 14px; border: 1px solid var(--primary-color); border-radius: 10px; outline: none; font-size: 1rem; background: var(--white); color: var(--text-dark);}
-        .main-contact-form input:focus, .main-contact-form textarea:focus { border-color: var(--accent-color); }
-        .main-contact-form button { background: var(--accent-color); color: var(--white); border: none; padding: 14px; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 1.05rem; transition: opacity 0.3s; }
-        .main-contact-form button:hover { opacity: 0.8; }
-
-        /* MODAL */
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: var(--modal-overlay-bg); backdrop-filter: blur(3px); overflow-y: auto;}
-        .modal-content { background: var(--white); margin: 8% auto; padding: 3rem; border-radius: 20px; width: 70%; max-width: 800px; position: relative; box-shadow: 0 15px 40px rgba(0,0,0,0.2); animation: fadeIn 0.3s;}
-        .close-btn { position: absolute; top: 20px; right: 25px; font-size: 2rem; color: #aaa; cursor: pointer; transition: color 0.3s;}
-        .close-btn:hover { color: var(--accent-color); }
-        .modal-content h2 { color: var(--accent-color); margin-bottom: 0.5rem; line-height: 1.4; font-size: 1.4rem;}
-        .modal-content hr { border: none; height: 1px; background: var(--primary-color); margin: 1.5rem 0;}
-        .modal-subtitle { color: var(--text-dark); margin: 1.5rem 0 1rem 0;}
-        .modal-content ul { margin-left: 1.5rem; }
-        .modal-content li { margin-bottom: 0.8rem; line-height: 1.6; color: var(--text-muted);}
-        .modal-content strong { color: var(--text-dark);}
-
-        /* CANVAS AND MASCOT ANIMATION STYLES */
-        #fireworks-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 10000;
-            display: none;
-        }
-        #mascot-container {
-            position: fixed;
-            bottom: -200px;
-            left: -200px;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            z-index: 9999;
-            pointer-events: none;
-        }
-        .mascot-bubble {
-            background: var(--white);
-            border: 3px solid var(--accent-color);
-            padding: 10px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: var(--accent-color);
-            margin-bottom: 10px;
-            white-space: nowrap;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            position: relative;
-        }
-        .mascot-bubble::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-width: 10px 10px 0;
-            border-style: solid;
-            border-color: var(--accent-color) transparent;
-            display: block;
-            width: 0;
-        }
-        .mascot-character {
-            font-size: 5rem;
-            line-height: 1;
-            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.15));
-        }
-        .mascot-active {
-            display: flex !important;
-            animation: mascotFlipAcross 5s linear forwards;
-        }
-        @keyframes mascotFlipAcross {
-            0% {
-                bottom: 80px;
-                left: -200px;
-                transform: rotate(0deg);
-            }
-            100% {
-                bottom: 80px;
-                left: calc(100vw + 200px);
-                transform: rotate(3600deg);
-            }
-        }
-
-        /* AUTH PORTAL STYLES */
-        .auth-card {
-            max-width: 450px;
-            margin: 2rem auto;
-            background: var(--white);
-            border: 3px solid var(--primary-color);
-            border-radius: 24px;
-            padding: 2.5rem;
-            box-shadow: 0 10px 30px rgba(var(--accent-rgb), 0.08);
-            transition: all 0.3s ease;
-        }
-        .auth-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 2rem;
-            border-bottom: 2px dashed var(--border-light);
-            padding-bottom: 1rem;
-        }
-        .auth-tab-btn {
-            flex: 1;
-            background: none;
-            border: none;
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--text-muted);
-            padding: 10px;
-            cursor: pointer;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-        }
-        .auth-tab-btn:hover {
-            color: var(--accent-color);
-            background: var(--light-bg);
-        }
-        .auth-tab-btn.active {
-            color: var(--white);
-            background: var(--accent-color);
-        }
-        .auth-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1.2rem;
-        }
-        .auth-form input {
-            width: 100%;
-            padding: 14px 20px;
-            border: 2px solid var(--primary-color);
-            border-radius: 16px;
-            background: var(--white);
-            font-size: 0.95rem;
-            color: var(--text-dark);
-            outline: none;
-            transition: all 0.3s ease;
-        }
-        .auth-form input:focus {
-            border-color: var(--accent-color);
-            box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.15);
-            background: var(--light-bg);
-        }
-        .auth-submit-btn {
-            background: var(--accent-color);
-            color: var(--white);
-            border: none;
-            padding: 14px;
-            border-radius: 20px;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(var(--accent-rgb), 0.2);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .auth-submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(var(--accent-rgb), 0.3);
-        }
-        .auth-message {
-            font-size: 0.9rem;
-            font-weight: 600;
-            text-align: center;
-            margin-top: 10px;
-        }
-        .auth-message.success { color: #2E7D32; }
-        .auth-message.error { color: #C62828; }
-        
-        .welcome-box {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            gap: 1rem;
-        }
-        .welcome-avatar {
-            font-size: 3.5rem;
-            animation: bounceFloat 3s ease-in-out infinite;
-        }
-        .welcome-box h3 {
-            font-size: 1.4rem;
-            color: var(--accent-color);
-            font-weight: 700;
-        }
-        .welcome-box p {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-        .logout-btn {
-            background: none;
-            border: 2px solid var(--primary-color);
-            color: var(--accent-color);
-            padding: 10px 24px;
-            border-radius: 20px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 1rem;
-        }
-        .logout-btn:hover {
-            background: var(--primary-color);
-            color: var(--white);
-        }
-        .auth-toggle-btn {
-            background: none;
-            border: 1px solid var(--primary-color);
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--accent-color);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-            margin-bottom: 0.8rem;
-            margin-left: 10px;
-        }
-        .auth-toggle-btn:hover {
-            background: var(--primary-color);
-            color: var(--white);
-            transform: translateY(-2px);
-        }
-    </style>
-</head>
-<body>
-    <!-- Canvas for Fireworks Success Animation -->
-    <canvas id="fireworks-canvas"></canvas>
-
-    <!-- Cute Mascot for Success Flipping -->
-    <div id="mascot-container">
-        <div class="mascot-bubble">
-            Yay! You logged in! 🐾
-        </div>
-        <div class="mascot-character">😺</div>
-    </div>
-    <div class="container">
-        <aside class="sidebar">
-            <div class="profile-img">
-                <img src="avatar_ellie.jpg" alt="Quynh Chi Profile">
-            </div>
-            <h1 class="name">Quynh Chi (Ellie)</h1>
-            <h2 class="role-title">Business Analyst Intern</h2>
-            
-            <div class="sidebar-tags">
-                <span class="s-tag"> International Business Economics | Foreign Trade University</span>
-                <span class="s-tag">Business Analyst</span>
-                <span class="s-tag">Data Enthusiast</span>
-            </div>
-
-            <div class="contact-info-sidebar">
-                <p>📧 quynhchipt.work@gmail.com</p>
-                <p>📍 Hanoi, Vietnam</p>
-            </div>
-        </aside>
-
-        <main class="main-content">
-            <nav class="navbar">
-                <button class="nav-btn active" onclick="openTab('overview')">Overview</button>
-                <button class="nav-btn" onclick="openTab('experience')">Experience</button>
-                <button class="nav-btn" onclick="openTab('projects')">Projects</button>
-                <button class="nav-btn" onclick="openTab('contact')">Contact</button>
-                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle theme" onclick="toggleTheme()">
-                    💙 Blue Theme
-                </button>
-                <button id="auth-nav-btn" class="auth-toggle-btn" onclick="openModal('auth-modal')">
-                    👤 Sign In
-                </button>
-            </nav>
-
-            <section id="overview" class="tab-content active">
-                <div class="bio-section">
-                    <h2 class="main-greeting">Welcome to my world! ✨</h2>
-                    <p class="intro-text">Hello! I am Quynh Chi, but you can call me <strong>Ellie</strong>. I am a senior at Foreign Trade University, pursuing Bachelor's degrees in International Economics and International Trade Law.</p>
-                    
-                    <h3 class="about-heading">About Me</h3>
-                    <p class="about-text">I am deeply curious and intensely passionate about unraveling complex problems to discover elegant, data-driven solutions. I thrive when working with data processing tools and absolutely love diving into the underlying code to see how things truly work. For me, continuous learning isn't just a habit—it is a lifestyle. I am always eager to absorb new knowledge, especially when it comes to business operations, data modeling, and programming.</p>
-                </div>
-
-                <div class="awards-section">
-                    <h3>Awards & Honors</h3>
-                    <ul class="awards-list">
-                        <li><span class="icon">🏆</span> 3rd Prize - University Level, Foreign Trade University Student Scientific Research (2024-2025)</li>
-                        <li><span class="icon">🏆</span> Top 20, Heading For The Future Project: E-commerce 2025</li>
-                        <li><span class="icon">🏆</span> "Student of 5 Merits" at City Level (2024-2025)</li>
-                        <li><span class="icon">🏆</span> "Student of 5 Merits" at University Level (2024-2025)</li>
-                    </ul>
-                </div>
-
-                <div class="skills-section">
-                    <h3>Skills & Tools</h3>
-                    
-                    <div class="skill-category">
-                        <h4>Data & Programming</h4>
-                        <div class="tags-container">
-                            <span class="tech-tag">Python (Basic)</span>
-                            <span class="tech-tag">SQL</span>
-                            <span class="tech-tag">Stata</span>
-                            <span class="tech-tag">SmartPLS</span>
-                            <span class="tech-tag">MS Excel</span>
-                        </div>
-                    </div>
-
-                    <div class="skill-category">
-                        <h4>Business Analyst Operations</h4>
-                        <div class="tags-container">
-                            <span class="tech-tag">Process Modeling (Draw.io)</span>
-                            <span class="tech-tag">Requirement Management</span>
-                            <span class="tech-tag">A/B Testing</span>
-                            <span class="tech-tag">Data Labeling</span>
-                            <span class="tech-tag">Stakeholder Management</span>
-                        </div>
-                    </div>
-
-                    <div class="skill-category">
-                        <h4>Languages</h4>
-                        <div class="tags-container">
-                            <span class="tech-tag">English</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="preview-group">
-                    <div class="preview-header">
-                        <h3>Work Experience Preview</h3>
-                        <span class="view-all" onclick="openTab('experience')">View all →</span>
-                    </div>
-                    <div class="horizontal-scroller">
-                        <div class="preview-card" onclick="openTab('experience')">
-                            <h4>Bellsystem24 Vietnam</h4>
-                            <p class="preview-role">Recruitment Intern</p>
-                            <p class="preview-date">07/2024 - 09/2024</p>
-                        </div>
-                        <div class="preview-card" onclick="openTab('experience')">
-                            <h4>SACE Education Vietnam</h4>
-                            <p class="preview-role">IELTS Teaching Assistant</p>
-                            <p class="preview-date">09/2022 - 02/2023</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="preview-group">
-                    <div class="preview-header">
-                        <h3>Extracurriculars Preview</h3>
-                        <span class="view-all" onclick="openTab('experience')">View all →</span>
-                    </div>
-                    <div class="horizontal-scroller">
-                        <div class="preview-card" onclick="openTab('experience')">
-                            <h4>FTU Student Association</h4>
-                            <p class="preview-role">Event Organizer</p>
-                            <p class="preview-date">10/2022 - 10/2025</p>
-                        </div>
-                        <div class="preview-card" onclick="openTab('experience')">
-                            <h4>Book and Action - BnA Hanoi</h4>
-                            <p class="preview-role">RnD Member</p>
-                            <p class="preview-date">10/2022 - 06/2023</p>
-                        </div>
-                        <div class="preview-card" onclick="openTab('experience')">
-                            <h4>Book and Action Club</h4>
-                            <p class="preview-role">President</p>
-                            <p class="preview-date">10/2019 - 01/2022</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="preview-group">
-                    <div class="preview-header">
-                        <h3>Project Preview</h3>
-                        <span class="view-all" onclick="openTab('projects')">View all →</span>
-                    </div>
-                    <div class="horizontal-scroller">
-                        <div class="preview-card project-preview-card" onclick="openTab('projects')">
-                            <h4>Scientific Research (3rd Prize)</h4>
-                            <p class="preview-role">PGDA & Corporate Financial Constraints</p>
-                            <p class="preview-date">2024 - 2025</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="experience" class="tab-content">
-                <h2 class="section-title">Work Experience</h2>
-                <div class="detailed-timeline">
-                    <div class="exp-item">
-                        <div class="exp-header">
-                            <h3>Bellsystem24 Vietnam | Recruitment Intern</h3>
-                            <span class="exp-date">07/2024 - 09/2024</span>
-                        </div>
-                        <ul>
-                            <li><strong>Management Dashboards:</strong> Designed automated reporting systems on Excel to track key metrics (Conversion rate, Source effectiveness, Lead time).</li>
-                            <li><strong>Social Media Optimization:</strong> Researched algorithms of Threads and Facebook, executing A/B Testing to increase organic views by over 550% and generate nearly 400 CVs per month.</li>
-                            <li><strong>Funnel Management:</strong> Managed the recruitment funnel by contacting candidates, screening, coordinating interviews, and successfully recruiting 17 official employees.</li>
-                        </ul>
-                    </div>
-
-                    <div class="exp-item">
-                        <div class="exp-header">
-                            <h3>SACE Education Vietnam | IELTS Collaborator & Teaching Assistant</h3>
-                            <span class="exp-date">09/2022 - 02/2023</span>
-                        </div>
-                        <ul>
-                            <li><strong>Material Development:</strong> Researched and compiled teaching materials for IELTS classes (Band 5.5 - 6.5), ensuring content strictly adhered to requirements and output goals.</li>
-                            <li><strong>Management & Reporting:</strong> Supported classroom management and developed periodic academic progress reports for management and parents.</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <h2 class="section-title">Extracurricular Activities</h2>
-                <div class="detailed-timeline">
-                    <div class="exp-item">
-                        <div class="exp-header">
-                            <h3>Foreign Trade University Student Association | Event Organizer</h3>
-                            <span class="exp-date">10/2022 - 10/2025</span>
-                        </div>
-                        <ul>
-                            <li>Planned events, brainstormed ideas, and directly executed activities for the FTU Student Association.</li>
-                            <li>Organized prominent events with over 1000 participants, including "Duyen dang Ngoai thuong" (2023) and the university-wide blood donation festival "Happy Day" (2022, 2023, 2024).</li>
-                        </ul>
-                    </div>
-
-                    <div class="exp-item">
-                        <div class="exp-header">
-                            <h3>Book and Action Project (BnA Hanoi) | RnD Member</h3>
-                            <span class="exp-date">10/2022 - 06/2023</span>
-                        </div>
-                        <ul>
-                            <li><strong>Negotiation:</strong> Contacted high school administrators across Northern Vietnam to establish new clubs.</li>
-                            <li><strong>Management:</strong> Supervised and supported 10 active clubs in Hai Phong.</li>
-                            <li><strong>Process Standardization:</strong> Standardized processes, developed and transferred operational guideline documents.</li>
-                        </ul>
-                    </div>
-
-                    <div class="exp-item">
-                        <div class="exp-header">
-                            <h3>Book and Action Club - Hung Yen High School | President</h3>
-                            <span class="exp-date">10/2019 - 01/2022</span>
-                        </div>
-                        <ul>
-                            <li>Managed 40+ members, developed operational plans, and managed budgets and resources for the entire club.</li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-
-            <section id="projects" class="tab-content">
-                <h2 class="section-title">Featured Projects</h2>
-                <div class="project-grid">
-                    <div class="project-card-full" onclick="openModal('project1-modal')">
-                        <div class="p-info">
-                            <h3>Provincial government digital attention and corporate financial constraints in VIETNAM: the role of digitalization and ESG</h3>
-                            <span class="badge">🏆 3rd Prize - University Level FTU Student Scientific Research (2024-2025)</span>
-                            <p class="click-hint">Hover and click to view project details & methodology</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="contact" class="tab-content">
-                <h2 class="section-title">Contact Information</h2>
-                <div class="contact-container">
-                    <div class="contact-box">
-                        <p><strong>Email:</strong> quynhchipt.work@gmail.com</p>
-                        <p><strong>LinkedIn:</strong> <a href="https://linkedin.com/in/elliequynhchi/" target="_blank">linkedin.com/in/elliequynhchi/</a></p>
-                    </div>
-
-                    <form action="https://formspree.io/f/mrerekdk" method="POST" class="main-contact-form">
-                        <input type="text" name="name" placeholder="Your Full Name" required>
-                        <input type="email" name="email" placeholder="Your Email" required>
-                        <textarea name="message" rows="5" placeholder="Message content..." required></textarea>
-                        <button type="submit">Submit Inquiry</button>
-                    </form>
-                </div>
-            </section>
-        </main>
-    </div>
-
-    <div id="project1-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('project1-modal')">&times;</span>
-            <h2>Provincial government digital attention and corporate financial constraints in VIETNAM: the role of digitalization and ESG</h2>
-            <hr>
-
-            <div class="project-overview" style="margin-bottom: 2rem;">
-                <p><strong>Overview:</strong> This independent research explores the influence of provincial government digital attention (PGDA) on corporate financial constraints, highlighting the mediating role of digitalization and the moderating role of ESG within the context of Vietnam's evolving digital landscape. </p>
-            </div>
-            
-            <div class="publication-highlight" style="background: var(--highlight-bg); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; border-left: 5px solid var(--accent-color);">
-                <h3 style="margin-top: 0; color: var(--accent-color); font-size: 1.2rem;">📰 Recognition & Publication</h3>
-                <p style="margin: 0.5rem 0; color: var(--text-dark); font-weight: 500;">
-                    The findings of this research were officially published in:
-                </p>
-                <p style="font-style: italic; color: var(--text-muted); margin-bottom: 1rem;">
-                    "Ảnh hưởng của chuyển đổi số đến hạn chế tài chính trong các công ty niêm yết tại Việt Nam" 
-                    (The Impact of Digital Transformation on Financial Constraints in Listed Companies in Vietnam) 
-                    - <strong>Tạp chí Tài chính Doanh nghiệp (Corporate Finance Magazine)</strong>, March 2025 Issue.
-                </p>
-                <a href="https://taichinhdoanhnghiep.net.vn/tap-chi-tai-chinh-doanh-nghiep-so-thang-3-2025-i93.html#carousel__slide23" target="_blank" style="display: inline-block; color: var(--accent-color); text-decoration: none; font-weight: 600; border: 1px solid var(--accent-color); padding: 6px 15px; border-radius: 6px; transition: 0.3s;">
-                    📖 View Journal Publication
-                </a>
-                <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-dark);">
-                    🏆 This project was also awarded the <strong>3rd Prize</strong> in the University-level Scientific Research Competition (2024-2025).
-                </p>
-            </div>
-    
-            <h3 class="modal-subtitle">Analytical Insights & BA Mindset:</h3>
-            <ul>
-                <li><strong>Data Interpretation & Root-Cause Analysis:</strong> Addressed the counter-intuitive statistical finding that Provincial Government Digital Attention (PGDA) actually <em>increases</em> short-term corporate financial constraints. Conducted root-cause analysis to identify that top-down digital mandates force enterprises into rapid, capital-intensive transitions, draining their immediate liquidity.</li>
-                <li><strong>Strategic Problem-Solving:</strong> Translated complex econometric results into a practical business problem, demonstrating how external policy compliance creates internal financial bottlenecks and "sunk cost" burdens for companies.</li>
-                <li><strong>Actionable Recommendations:</strong> Synthesized data to prove that integrating robust ESG practices acts as a crucial moderator, allowing businesses to unlock alternative financing channels and alleviate the financial stress caused by forced digitalization.</li>
-            </ul>
-    
-            <h3 class="modal-subtitle">Methodology & Execution:</h3>
-            <ul>
-                <li><strong>Data Collection (Python):</strong> Programmed scripts to perform web scraping across 47 provincial portals and annual reports of 400 listed companies to quantify digital attention keywords.</li>
-                <li><strong>Econometric Analysis (Stata):</strong> Utilized advanced models (System-GMM, 2SLS) to ensure robustness in identifying causation, mediation, and moderation effects.</li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- Authentication Modal (Sign In / Sign Up) -->
-    <div id="auth-modal" class="modal">
-        <div class="modal-content" style="max-width: 450px; margin: 10% auto; padding: 2.5rem;">
-            <span class="close-btn" onclick="closeModal('auth-modal')">&times;</span>
-            
-            <div id="auth-forms-container">
-                <div class="auth-tabs">
-                    <button class="auth-tab-btn active" id="login-tab-btn" onclick="showAuthForm('login')">Sign In</button>
-                    <button class="auth-tab-btn" id="register-tab-btn" onclick="showAuthForm('register')">Sign Up</button>
-                </div>
-                
-                <form id="login-form" class="auth-form" onsubmit="handleAuthSubmit(event, 'login')">
-                    <input type="text" id="login-username" placeholder="Username" required>
-                    <input type="password" id="login-password" placeholder="Password" required>
-                    <button type="submit" class="auth-submit-btn">Sign In</button>
-                    <div id="login-message" class="auth-message"></div>
-                </form>
-                
-                <form id="register-form" class="auth-form" style="display: none;" onsubmit="handleAuthSubmit(event, 'register')">
-                    <input type="text" id="register-username" placeholder="Choose Username" required>
-                    <input type="password" id="register-password" placeholder="Choose Password" required>
-                    <button type="submit" class="auth-submit-btn">Create Account</button>
-                    <div id="register-message" class="auth-message"></div>
-                </form>
-            </div>
-
-            <div id="logged-in-container" style="display: none;">
-                <div class="welcome-box">
-                    <span class="welcome-avatar">👑</span>
-                    <h3 id="welcome-message">Welcome!</h3>
-                    <p>You have successfully authenticated using Cloudflare D1 Database.</p>
-                    <button onclick="handleLogout()" class="logout-btn">Sign Out</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Authentication Modal (Sign In / Sign Up) -->
-    <div id="auth-modal" class="modal">
-        <div class="modal-content" style="max-width: 450px; margin: 10% auto; padding: 2.5rem;">
-            <span class="close-btn" onclick="closeModal('auth-modal')">&times;</span>
-            
-            <div id="auth-forms-container">
-                <div class="auth-tabs">
-                    <button class="auth-tab-btn active" id="login-tab-btn" onclick="showAuthForm('login')">Sign In</button>
-                    <button class="auth-tab-btn" id="register-tab-btn" onclick="showAuthForm('register')">Sign Up</button>
-                </div>
-                
-                <form id="login-form" class="auth-form" onsubmit="handleAuthSubmit(event, 'login')">
-                    <input type="text" id="login-username" placeholder="Username" required>
-                    <input type="password" id="login-password" placeholder="Password" required>
-                    <button type="submit" class="auth-submit-btn">Sign In</button>
-                    <div id="login-message" class="auth-message"></div>
-                </form>
-                
-                <form id="register-form" class="auth-form" style="display: none;" onsubmit="handleAuthSubmit(event, 'register')">
-                    <input type="text" id="register-username" placeholder="Choose Username" required>
-                    <input type="password" id="register-password" placeholder="Choose Password" required>
-                    <button type="submit" class="auth-submit-btn">Create Account</button>
-                    <div id="register-message" class="auth-message"></div>
-                </form>
-            </div>
-
-            <div id="logged-in-container" style="display: none;">
-                <div class="welcome-box">
-                    <span class="welcome-avatar">👑</span>
-                    <h3 id="welcome-message">Welcome!</h3>
-                    <p>You have successfully authenticated using Cloudflare D1 Database.</p>
-                    <button onclick="handleLogout()" class="logout-btn">Sign Out</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function openTab(tabName) {
-            const tabContents = document.querySelectorAll('.tab-content');
-            tabContents.forEach(tab => tab.classList.remove('active'));
-
-            const navButtons = document.querySelectorAll('.nav-btn');
-            navButtons.forEach(btn => btn.classList.remove('active'));
-
-            document.getElementById(tabName).classList.add('active');
-            
-            navButtons.forEach(btn => {
-                if(btn.innerText.toLowerCase() === tabName.toLowerCase()) {
-                    btn.classList.add('active');
-                }
-            });
-            
-            document.querySelector('.main-content').scrollTop = 0;
-        }
-
-        function openModal(modalId) { 
-            document.getElementById(modalId).style.display = 'block'; 
-        }
-
-        function closeModal(modalId) { 
-            document.getElementById(modalId).style.display = 'none'; 
-        }
-
-        window.onclick = function(event) { 
-            if (event.target.className === 'modal') { 
-                event.target.style.display = 'none'; 
-            } 
-        }
-
-        function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'pink' ? 'blue' : 'pink';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            updateThemeButton(newTheme);
-        }
-
-        function updateThemeButton(theme) {
-            const btn = document.getElementById('theme-toggle');
-            if (btn) {
-                btn.innerHTML = theme === 'pink' ? '🌸 Pink Theme' : '💙 Blue Theme';
-            }
-        }
-
-        // Initialize button text on load
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('theme') || 'blue';
-            updateThemeButton(savedTheme);
-            
-            const savedSession = localStorage.getItem('user-session');
-            updateSessionView(savedSession);
-        });
-
-        // AUTHENTICATION INTERACTION LOGIC
-        function showAuthForm(type) {
-            const loginForm = document.getElementById('login-form');
-            const registerForm = document.getElementById('register-form');
-            const loginBtn = document.getElementById('login-tab-btn');
-            const registerBtn = document.getElementById('register-tab-btn');
-            
-            if (type === 'login') {
-                loginForm.style.display = 'flex';
-                registerForm.style.display = 'none';
-                loginBtn.classList.add('active');
-                registerBtn.classList.remove('active');
-            } else {
-                loginForm.style.display = 'none';
-                registerForm.style.display = 'flex';
-                loginBtn.classList.remove('active');
-                registerBtn.classList.add('active');
-            }
-        }
-
-        async function handleAuthSubmit(event, type) {
-            event.preventDefault();
-            const messageDiv = document.getElementById(`${type}-message`);
-            messageDiv.className = 'auth-message';
-            messageDiv.innerHTML = '';
-            
-            const usernameInput = document.getElementById(`${type}-username`);
-            const passwordInput = document.getElementById(`${type}-password`);
-            
-            const username = usernameInput.value;
-            const password = passwordInput.value;
-            
-            try {
-                const response = await fetch(`/api/auth?action=${type}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password })
-                });
-                
-                const data = await response.json();
-                
-                if (!response.ok) {
-                    messageDiv.className = 'auth-message error';
-                    messageDiv.innerHTML = data.error || 'An error occurred.';
-                    return;
-                }
-                
-                messageDiv.className = 'auth-message success';
-                messageDiv.innerHTML = data.message;
-                
-                if (type === 'register') {
-                    usernameInput.value = '';
-                    passwordInput.value = '';
-                    setTimeout(() => {
-                        showAuthForm('login');
-                        const loginUser = document.getElementById('login-username');
-                        if (loginUser) loginUser.value = username;
-                    }, 1500);
-                } else {
-                    // Login successful!
-                    localStorage.setItem('user-session', data.user);
-                    updateSessionView(data.user);
-                    
-                    // Close modal and trigger animations
-                    setTimeout(() => {
-                        closeModal('auth-modal');
-                    }, 800);
-                    startFireworks();
-                    triggerMascotFlip();
-                }
-            } catch (err) {
-                messageDiv.className = 'auth-message error';
-                messageDiv.innerHTML = 'Could not connect to the authentication server.';
-            }
-        }
-
-        function updateSessionView(username) {
-            const authContainer = document.getElementById('auth-forms-container');
-            const welcomeContainer = document.getElementById('logged-in-container');
-            const welcomeMsg = document.getElementById('welcome-message');
-            const navBtn = document.getElementById('auth-nav-btn');
-            
-            if (username) {
-                authContainer.style.display = 'none';
-                welcomeContainer.style.display = 'block';
-                welcomeMsg.innerHTML = `Hi, ${username}! ✨`;
-                if (navBtn) navBtn.innerHTML = `👤 Hi, ${username}`;
-            } else {
-                authContainer.style.display = 'block';
-                welcomeContainer.style.display = 'none';
-                if (navBtn) navBtn.innerHTML = `👤 Sign In`;
-            }
-        }
-
-        function handleLogout() {
-            localStorage.removeItem('user-session');
-            updateSessionView(null);
-            document.getElementById('login-username').value = '';
-            document.getElementById('login-password').value = '';
-            document.getElementById('login-message').innerHTML = '';
-        }
-
-        // MASCOT FLIPPING ANIMATION TRIGGER
-        function triggerMascotFlip() {
-            const mascot = document.getElementById('mascot-container');
-            if (!mascot) return;
-            mascot.classList.remove('mascot-active');
-            // Force reflow to restart animation
-            void mascot.offsetWidth;
-            mascot.classList.add('mascot-active');
-            
-            setTimeout(() => {
-                mascot.classList.remove('mascot-active');
-            }, 5000);
-        }
-
-        // CANVAS FIREWORKS PARTICLE ENGINE
-        function startFireworks() {
-            const canvas = document.getElementById('fireworks-canvas');
-            if (!canvas) return;
-            canvas.style.display = 'block';
-            const ctx = canvas.getContext('2d');
-            let animationFrameId;
-            
-            function resize() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            }
-            window.addEventListener('resize', resize);
-            resize();
-            
-            const particles = [];
-            const colors = ['#FF4D6D', '#3F8EFC', '#FFB020', '#A0CFFF', '#FFD1DC', '#4CAF50', '#E040FB'];
-            
-            class Particle {
-                constructor(x, y, color) {
-                    this.x = x;
-                    this.y = y;
-                    this.color = color;
-                    this.angle = Math.random() * Math.PI * 2;
-                    this.speed = Math.random() * 5 + 3;
-                    this.friction = 0.95;
-                    this.gravity = 0.08;
-                    this.alpha = 1;
-                    this.decay = Math.random() * 0.015 + 0.01;
-                }
-                update() {
-                    this.speed *= this.friction;
-                    this.x += Math.cos(this.angle) * this.speed;
-                    this.y += Math.sin(this.angle) * this.speed + this.gravity;
-                    this.alpha -= this.decay;
-                }
-                draw() {
-                    ctx.save();
-                    ctx.globalAlpha = this.alpha;
-                    ctx.fillStyle = this.color;
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.restore();
-                }
-            }
-            
-            function createExplosion(x, y) {
-                const color = colors[Math.floor(Math.random() * colors.length)];
-                for (let i = 0; i < 60; i++) {
-                    particles.push(new Particle(x, y, color));
-                }
-            }
-            
-            let lastLaunch = 0;
-            function loop(timestamp) {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                
-                if (timestamp - lastLaunch > 350) {
-                    createExplosion(
-                        Math.random() * canvas.width, 
-                        Math.random() * (canvas.height * 0.5) + canvas.height * 0.1
-                    );
-                    lastLaunch = timestamp;
-                }
-                
-                for (let i = particles.length - 1; i >= 0; i--) {
-                    particles[i].update();
-                    if (particles[i].alpha <= 0) {
-                        particles.splice(i, 1);
-                    } else {
-                        particles[i].draw();
-                    }
-                }
-                
-                animationFrameId = requestAnimationFrame(loop);
-            }
-            
-            requestAnimationFrame(loop);
-            
-            setTimeout(() => {
-                cancelAnimationFrame(animationFrameId);
-                window.removeEventListener('resize', resize);
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                canvas.style.display = 'none';
-            }, 5000);
-        }
-    </script>
-</body>
-</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quynh Chi (Ellie) | Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Authentication Modal (Sign In / Sign Up) -->
+    <div id="auth-modal" class="modal">
+        <div class="modal-content" style="max-width: 450px; margin: 10% auto; padding: 2.5rem;">
+            <span class="close-btn" onclick="closeModal('auth-modal')">&times;</span>
+            
+            <div id="auth-forms-container">
+                <div class="auth-tabs">
+                    <button class="auth-tab-btn active" id="login-tab-btn" onclick="showAuthForm('login')">Sign In</button>
+                    <button class="auth-tab-btn" id="register-tab-btn" onclick="showAuthForm('register')">Sign Up</button>
+                </div>
+                
+                <form id="login-form" class="auth-form" onsubmit="handleAuthSubmit(event, 'login')">
+                    <input type="text" id="login-username" placeholder="Username" required>
+                    <input type="password" id="login-password" placeholder="Password" required>
+                    <button type="submit" class="auth-submit-btn">Sign In</button>
+                    <div id="login-message" class="auth-message"></div>
+                </form>
+                
+                <form id="register-form" class="auth-form" style="display: none;" onsubmit="handleAuthSubmit(event, 'register')">
+                    <input type="text" id="register-username" placeholder="Choose Username" required>
+                    <input type="password" id="register-password" placeholder="Choose Password" required>
+                    <button type="submit" class="auth-submit-btn">Create Account</button>
+                    <div id="register-message" class="auth-message"></div>
+                </form>
+            </div>
+
+            <div id="logged-in-container" style="display: none;">
+                <div class="welcome-box">
+                    <span class="welcome-avatar">👑</span>
+                    <h3 id="welcome-message">Welcome!</h3>
+                    <p>You have successfully authenticated using Cloudflare D1 Database.</p>
+                    <button onclick="handleLogout()" class="logout-btn">Sign Out</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Authentication Modal (Sign In / Sign Up) -->
+    <div id="auth-modal" class="modal">
+        <div class="modal-content" style="max-width: 450px; margin: 10% auto; padding: 2.5rem;">
+            <span class="close-btn" onclick="closeModal('auth-modal')">&times;</span>
+            
+            <div id="auth-forms-container">
+                <div class="auth-tabs">
+                    <button class="auth-tab-btn active" id="login-tab-btn" onclick="showAuthForm('login')">Sign In</button>
+                    <button class="auth-tab-btn" id="register-tab-btn" onclick="showAuthForm('register')">Sign Up</button>
+                </div>
+                
+                <form id="login-form" class="auth-form" onsubmit="handleAuthSubmit(event, 'login')">
+                    <input type="text" id="login-username" placeholder="Username" required>
+                    <input type="password" id="login-password" placeholder="Password" required>
+                    <button type="submit" class="auth-submit-btn">Sign In</button>
+                    <div id="login-message" class="auth-message"></div>
+                </form>
+                
+                <form id="register-form" class="auth-form" style="display: none;" onsubmit="handleAuthSubmit(event, 'register')">
+                    <input type="text" id="register-username" placeholder="Choose Username" required>
+                    <input type="password" id="register-password" placeholder="Choose Password" required>
+                    <button type="submit" class="auth-submit-btn">Create Account</button>
+                    <div id="register-message" class="auth-message"></div>
+                </form>
+            </div>
+
+            <div id="logged-in-container" style="display: none;">
+                <div class="welcome-box">
+                    <span class="welcome-avatar">👑</span>
+                    <h3 id="welcome-message">Welcome!</h3>
+                    <p>You have successfully authenticated using Cloudflare D1 Database.</p>
+                    <button onclick="handleLogout()" class="logout-btn">Sign Out</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Synchronous theme initialization to prevent flash of unstyled theme
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'blue';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    
+    <style>
+        :root {
+            /* MẢNG MÀU XANH PASTEL CHUYÊN NGHIỆP (Mặc định) */
+            --primary-color: #B4D4FF; /* Xanh pastel nhạt (Border, Tag hover) */
+            --light-bg: #F0F7FF;      /* Xanh cực nhạt (Background ngoài cùng, hộp contact) */
+            --accent-color: #5C8EAD;  /* Xanh dương nhã nhặn (Tiêu đề, Nút bấm, Icon) */
+            --accent-rgb: 92, 142, 173; /* RGB của --accent-color */
+            --white: #FFFFFF;
+            --text-dark: #2C3E50;     /* Xanh than tối (Chữ chính) */
+            --text-dark-rgb: 44, 62, 80;
+            --text-muted: #607D8B;    /* Xanh xám nhạt (Chữ phụ) */
+            --gold: #D4AF37;          /* Vàng kim (Giải thưởng) */
+
+            /* Biến hỗ trợ giao diện */
+            --sidebar-grad-end: #E8F2FB;
+            --border-light: #E1EDF8;
+            --navbar-border: #EAF2F8;
+            --modal-overlay-bg: rgba(44, 62, 80, 0.6);
+            --highlight-bg: #EAF2F8;
+        }
+
+        [data-theme="pink"] {
+            /* MẢNG MÀU HỒNG PASTEL DỄ THƯƠNG */
+            --primary-color: #FFC0CB; /* Hồng pastel nhạt */
+            --light-bg: #FFF0F5;      /* Hồng cực nhạt */
+            --accent-color: #D87093;  /* Hồng đậm nhã nhặn */
+            --accent-rgb: 216, 112, 147; /* RGB của --accent-color */
+            --text-dark: #333333;     /* Chữ tối */
+            --text-dark-rgb: 51, 51, 51;
+            --text-muted: #666666;    /* Chữ phụ */
+
+            /* Ghi đè giao diện hồng */
+            --sidebar-grad-end: #fff9fb;
+            --border-light: #fce4ec;
+            --navbar-border: #fef0f4;
+            --modal-overlay-bg: rgba(0, 0, 0, 0.5);
+            --highlight-bg: #fce4ec;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background-color: var(--light-bg); color: var(--text-dark); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 2rem;}
+
+        .container { display: flex; max-width: 1250px; width: 100%; background: var(--white); border-radius: 20px; box-shadow: 0 10px 40px rgba(var(--accent-rgb), 0.15); overflow: hidden; height: 90vh; }
+
+        /* SIDEBAR */
+        .sidebar { width: 320px; background: linear-gradient(180deg, var(--white) 0%, var(--sidebar-grad-end) 100%); padding: 3rem 2rem; text-align: center; border-right: 1px solid var(--border-light); }
+        .profile-img img { width: 160px; height: 160px; border-radius: 50%; object-fit: cover; margin-bottom: 1.5rem; border: 4px solid var(--white); box-shadow: 0 4px 15px rgba(var(--accent-rgb), 0.2); }
+        .name { font-size: 1.8rem; color: var(--accent-color); margin-bottom: 0.3rem; font-weight: 600;}
+        .role-title { font-size: 1rem; font-weight: 500; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .sidebar-tags { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 2rem; }
+        .s-tag { background: var(--border-light); color: var(--accent-color); padding: 5px 12px; border-radius: 15px; font-size: 0.75rem; font-weight: 600; }
+        .contact-info-sidebar p { font-size: 0.9rem; margin-bottom: 0.6rem; color: var(--text-muted);}
+
+        /* MAIN CONTENT */
+        .main-content { flex: 1; padding: 3rem; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--primary-color) var(--white);}
+        .navbar { display: flex; align-items: center; gap: 2.5rem; margin-bottom: 2.5rem; border-bottom: 2px solid var(--navbar-border); }
+        .nav-btn { background: none; border: none; font-size: 1.05rem; font-weight: 600; color: var(--text-muted); cursor: pointer; padding-bottom: 0.8rem; position: relative; transition: color 0.3s;}
+        .nav-btn:hover { color: var(--accent-color); }
+        .nav-btn.active { color: var(--accent-color); }
+        .nav-btn.active::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 100%; height: 3px; background: var(--accent-color); border-radius: 3px; }
+
+        /* THEME TOGGLE BUTTON */
+        .theme-toggle-btn {
+            margin-left: auto;
+            background: none;
+            border: 1px solid var(--primary-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            margin-bottom: 0.8rem;
+        }
+        .theme-toggle-btn:hover {
+            background: var(--primary-color);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        /* OVERVIEW INTRO */
+        .main-greeting { font-size: 2.2rem; color: var(--accent-color); margin-bottom: 1rem; }
+        .intro-text { font-size: 1.1rem; line-height: 1.6; margin-bottom: 2rem; color: var(--text-dark);}
+        .about-heading { font-size: 1.4rem; color: var(--accent-color); margin-bottom: 0.8rem;}
+        .about-text { line-height: 1.8; text-align: justify; margin-bottom: 2.5rem; color: var(--text-muted);}
+
+        /* AWARDS SECTION */
+        .awards-section { margin-bottom: 2.5rem; background: #FFFDF5; border: 1px solid #FDE7A6; padding: 1.5rem; border-radius: 15px;}
+        .awards-section h3 { font-size: 1.3rem; color: var(--gold); margin-bottom: 1rem;}
+        .awards-list { list-style: none; padding-left: 0.5rem;}
+        .awards-list li { font-size: 1rem; margin-bottom: 0.6rem; color: var(--text-dark); display: flex; align-items: flex-start; gap: 10px;}
+        .awards-list li span.icon { color: var(--gold); font-size: 1.2rem; line-height: 1.2;}
+
+        /* SKILLS SECTION */
+        .skills-section h3 { font-size: 1.4rem; color: var(--accent-color); margin-bottom: 1rem;}
+        .skill-category { margin-bottom: 1.5rem; }
+        .skill-category h4 { font-size: 1.05rem; color: var(--text-dark); margin-bottom: 0.8rem; font-weight: 600;}
+        .tags-container { display: flex; flex-wrap: wrap; gap: 10px; }
+        .tech-tag { background: var(--white); border: 1px solid var(--primary-color); color: var(--accent-color); padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; transition: all 0.3s ease; font-weight: 500;}
+        .tech-tag:hover { background: var(--accent-color); color: var(--white); transform: translateY(-2px);}
+
+        /* HORIZONTAL SCROLLER */
+        .preview-group { margin-top: 3rem; margin-bottom: 2.5rem; }
+        .preview-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; }
+        .preview-header h3 { font-size: 1.2rem; color: var(--accent-color);}
+        .view-all { font-size: 0.9rem; color: var(--accent-color); cursor: pointer; font-weight: 600; transition: opacity 0.3s;}
+        .view-all:hover { opacity: 0.7;}
+
+        .horizontal-scroller { display: flex; gap: 1.5rem; overflow-x: auto; padding-bottom: 1rem; scrollbar-width: thin; scrollbar-color: var(--primary-color) var(--white);}
+        .horizontal-scroller::-webkit-scrollbar { height: 6px; }
+        .horizontal-scroller::-webkit-scrollbar-thumb { background: var(--primary-color); border-radius: 10px; }
+
+        .preview-card { 
+            min-width: 260px; 
+            background: var(--white); 
+            border-left: 5px solid var(--primary-color); 
+            border-top: 1px solid #F0F0F0; border-right: 1px solid #F0F0F0; border-bottom: 1px solid #F0F0F0;
+            border-radius: 10px; 
+            padding: 1.5rem; 
+            cursor: pointer; 
+            transition: all 0.3s ease; 
+        }
+        .preview-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(var(--accent-rgb), 0.15); border-left-color: var(--accent-color);}
+        .preview-card h4 { font-size: 1rem; margin-bottom: 0.5rem; color: var(--text-dark); line-height: 1.4;}
+        .preview-role { font-size: 0.9rem; color: var(--accent-color); font-weight: 500; margin-bottom: 0.3rem;}
+        .preview-date { font-size: 0.8rem; color: var(--text-muted); }
+        .project-preview-card { border-left: 5px solid var(--accent-color); }
+
+        /* SECTIONS & TABS */
+        .section-title { color: var(--accent-color); margin: 2rem 0 1.5rem 0; font-size: 1.8rem; border-bottom: 1px dashed var(--primary-color); padding-bottom: 0.5rem;}
+        
+        .tab-content { display: none; animation: fadeIn 0.4s ease; }
+        .tab-content.active { display: block; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* TIMELINE */
+        .exp-item { margin-bottom: 2.5rem; padding-left: 1.5rem; border-left: 2px solid var(--primary-color); position: relative;}
+        .exp-item::before { content: ''; position: absolute; left: -6px; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent-color); }
+        .exp-header { margin-bottom: 0.8rem; }
+        .exp-header h3 { font-size: 1.15rem; color: var(--text-dark); margin-bottom: 0.3rem;}
+        .exp-date { font-size: 0.85rem; font-weight: 600; color: var(--accent-color); }
+        .exp-item ul { margin-left: 1.2rem; }
+        .exp-item li { margin-bottom: 0.6rem; font-size: 0.95rem; line-height: 1.6; color: var(--text-muted);}
+        .exp-item li strong { color: var(--text-dark); }
+
+        /* PROJECTS */
+        .project-card-full { background: var(--white); border: 1px solid var(--primary-color); padding: 2rem; border-radius: 15px; cursor: pointer; transition: all 0.3s ease; position: relative; overflow: hidden;}
+        .project-card-full:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(var(--accent-rgb), 0.2); border-color: var(--accent-color);}
+        .project-card-full h3 { font-size: 1.2rem; color: var(--text-dark); margin-bottom: 1rem; line-height: 1.4;}
+        .badge { display: inline-block; background: #FFF8E1; color: #B08D00; padding: 6px 12px; border-radius: 15px; font-size: 0.85rem; font-weight: 600; margin-bottom: 1.5rem; }
+        .click-hint { font-size: 0.9rem; color: var(--accent-color); font-style: italic; font-weight: 500;}
+
+        /* CONTACT */
+        .contact-container { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+        .contact-box { background: var(--light-bg); padding: 2.5rem; border-radius: 15px; height: fit-content; border: 1px solid var(--border-light);}
+        .contact-box p { margin-bottom: 1rem; color: var(--text-dark); font-size: 1.05rem;}
+        .contact-box a { color: var(--accent-color); text-decoration: none; font-weight: 500;}
+        .contact-box a:hover { text-decoration: underline;}
+        .main-contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+        .main-contact-form input, .main-contact-form textarea { padding: 14px; border: 1px solid var(--primary-color); border-radius: 10px; outline: none; font-size: 1rem; background: var(--white); color: var(--text-dark);}
+        .main-contact-form input:focus, .main-contact-form textarea:focus { border-color: var(--accent-color); }
+        .main-contact-form button { background: var(--accent-color); color: var(--white); border: none; padding: 14px; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 1.05rem; transition: opacity 0.3s; }
+        .main-contact-form button:hover { opacity: 0.8; }
+
+        /* MODAL */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: var(--modal-overlay-bg); backdrop-filter: blur(3px); overflow-y: auto;}
+        .modal-content { background: var(--white); margin: 8% auto; padding: 3rem; border-radius: 20px; width: 70%; max-width: 800px; position: relative; box-shadow: 0 15px 40px rgba(0,0,0,0.2); animation: fadeIn 0.3s;}
+        .close-btn { position: absolute; top: 20px; right: 25px; font-size: 2rem; color: #aaa; cursor: pointer; transition: color 0.3s;}
+        .close-btn:hover { color: var(--accent-color); }
+        .modal-content h2 { color: var(--accent-color); margin-bottom: 0.5rem; line-height: 1.4; font-size: 1.4rem;}
+        .modal-content hr { border: none; height: 1px; background: var(--primary-color); margin: 1.5rem 0;}
+        .modal-subtitle { color: var(--text-dark); margin: 1.5rem 0 1rem 0;}
+        .modal-content ul { margin-left: 1.5rem; }
+        .modal-content li { margin-bottom: 0.8rem; line-height: 1.6; color: var(--text-muted);}
+        .modal-content strong { color: var(--text-dark);}
+
+        /* CANVAS AND MASCOT ANIMATION STYLES */
+        #fireworks-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10000;
+            display: none;
+        }
+        #mascot-container {
+            position: fixed;
+            bottom: -200px;
+            left: -200px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            z-index: 9999;
+            pointer-events: none;
+            width: 150px;
+            height: 150px;
+        }
+        #prince-cat-container {
+            position: fixed;
+            top: -250px;
+            left: -250px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10001;
+            pointer-events: none;
+        }
+        .prince-bubble {
+            background: var(--white);
+            border: 3px solid #E040FB;
+            padding: 10px 18px;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #E040FB;
+            margin-bottom: 12px;
+            white-space: nowrap;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .prince-bubble.show-bubble {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .prince-character {
+            font-size: 6rem;
+            line-height: 1;
+            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.2));
+        }
+        .prince-active {
+            display: flex !important;
+            animation: flyInAndKneel 5s ease-out forwards;
+        }
+        @keyframes flyInAndKneel {
+            0% {
+                top: -150px;
+                left: -150px;
+                transform: scale(0.5) rotate(15deg);
+            }
+            50% {
+                top: 35%;
+                left: 42%;
+                transform: scale(1) rotate(-10deg);
+            }
+            75% {
+                top: 40%;
+                left: 42%;
+                transform: scale(1.1) rotate(0deg);
+            }
+            90%, 100% {
+                top: 43%;
+                left: 42%;
+                transform: scale(1.1) translateY(12px) rotate(5deg);
+            }
+        }
+        .mascot-bubble {
+            background: var(--white);
+            border: 3px solid var(--accent-color);
+            padding: 10px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            white-space: nowrap;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        .mascot-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 10px 10px 0;
+            border-style: solid;
+            border-color: var(--accent-color) transparent;
+            display: block;
+            width: 0;
+        }
+        .mascot-character {
+            font-size: 5rem;
+            line-height: 1;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.15));
+        }
+        .mascot-active {
+            display: flex !important;
+            animation: mascotFlipAcross 5s linear forwards;
+        }
+        @keyframes mascotFlipAcross {
+            0% {
+                bottom: 80px;
+                left: -200px;
+                transform: rotate(0deg);
+            }
+            100% {
+                bottom: 80px;
+                left: calc(100vw + 200px);
+                transform: rotate(3600deg);
+            }
+        }
+
+        /* AUTH PORTAL STYLES */
+        .auth-card {
+            max-width: 450px;
+            margin: 2rem auto;
+            background: var(--white);
+            border: 3px solid var(--primary-color);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(var(--accent-rgb), 0.08);
+            transition: all 0.3s ease;
+        }
+        .auth-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 2rem;
+            border-bottom: 2px dashed var(--border-light);
+            padding-bottom: 1rem;
+        }
+        .auth-tab-btn {
+            flex: 1;
+            background: none;
+            border: none;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+        .auth-tab-btn:hover {
+            color: var(--accent-color);
+            background: var(--light-bg);
+        }
+        .auth-tab-btn.active {
+            color: var(--white);
+            background: var(--accent-color);
+        }
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+        .auth-form input {
+            width: 100%;
+            padding: 14px 20px;
+            border: 2px solid var(--primary-color);
+            border-radius: 16px;
+            background: var(--white);
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        .auth-form input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.15);
+            background: var(--light-bg);
+        }
+        .auth-submit-btn {
+            background: var(--accent-color);
+            color: var(--white);
+            border: none;
+            padding: 14px;
+            border-radius: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(var(--accent-rgb), 0.2);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .auth-submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(var(--accent-rgb), 0.3);
+        }
+        .auth-message {
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .auth-message.success { color: #2E7D32; }
+        .auth-message.error { color: #C62828; }
+        
+        .welcome-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 1rem;
+        }
+        .welcome-avatar {
+            font-size: 3.5rem;
+            animation: bounceFloat 3s ease-in-out infinite;
+        }
+        .welcome-box h3 {
+            font-size: 1.4rem;
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+        .welcome-box p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        .logout-btn {
+            background: none;
+            border: 2px solid var(--primary-color);
+            color: var(--accent-color);
+            padding: 10px 24px;
+            border-radius: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+        .logout-btn:hover {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+        .auth-toggle-btn {
+            background: none;
+            border: 1px solid var(--primary-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            margin-bottom: 0.8rem;
+            margin-left: 10px;
+        }
+        .auth-toggle-btn:hover {
+            background: var(--primary-color);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Canvas for Fireworks Success Animation -->
+    <canvas id="fireworks-canvas"></canvas>
+
+    <!-- Cute Mascot for Success Flipping -->
+    <div id="mascot-container">
+        <div class="mascot-bubble">
+            Yay! You logged in! 🐾
+        </div>
+        <div class="mascot-character">😺</div>
+    </div>
+
+    <!-- Prince Cat presenting a rose -->
+    <div id="prince-cat-container">
+        <div class="prince-bubble">
+            For you, my princess! 👑🌹✨
+        </div>
+        <div class="prince-character">😺👑🧹🌹</div>
+    </div>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="profile-img">
+                <img src="avatar_ellie.jpg" alt="Quynh Chi Profile">
+            </div>
+            <h1 class="name">Quynh Chi (Ellie)</h1>
+            <h2 class="role-title">Business Analyst Intern</h2>
+            
+            <div class="sidebar-tags">
+                <span class="s-tag"> International Business Economics | Foreign Trade University</span>
+                <span class="s-tag">Business Analyst</span>
+                <span class="s-tag">Data Enthusiast</span>
+            </div>
+
+            <div class="contact-info-sidebar">
+                <p>📧 quynhchipt.work@gmail.com</p>
+                <p>📍 Hanoi, Vietnam</p>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <nav class="navbar">
+                <button class="nav-btn active" onclick="openTab('overview')">Overview</button>
+                <button class="nav-btn" onclick="openTab('experience')">Experience</button>
+                <button class="nav-btn" onclick="openTab('projects')">Projects</button>
+                <button class="nav-btn" onclick="openTab('contact')">Contact</button>
+                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle theme" onclick="toggleTheme()">
+                    💙 Blue Theme
+                </button>
+                <button id="auth-nav-btn" class="auth-toggle-btn" onclick="openModal('auth-modal')">
+                    👤 Sign In
+                </button>
+            </nav>
+
+            <section id="overview" class="tab-content active">
+                <div class="bio-section">
+                    <h2 class="main-greeting">Welcome to my world! ✨</h2>
+                    <p class="intro-text">Hello! I am Quynh Chi, but you can call me <strong>Ellie</strong>. I am a senior at Foreign Trade University, pursuing Bachelor's degrees in International Economics and International Trade Law.</p>
+                    
+                    <h3 class="about-heading">About Me</h3>
+                    <p class="about-text">I am deeply curious and intensely passionate about unraveling complex problems to discover elegant, data-driven solutions. I thrive when working with data processing tools and absolutely love diving into the underlying code to see how things truly work. For me, continuous learning isn't just a habit—it is a lifestyle. I am always eager to absorb new knowledge, especially when it comes to business operations, data modeling, and programming.</p>
+                </div>
+
+                <div class="awards-section">
+                    <h3>Awards & Honors</h3>
+                    <ul class="awards-list">
+                        <li><span class="icon">🏆</span> 3rd Prize - University Level, Foreign Trade University Student Scientific Research (2024-2025)</li>
+                        <li><span class="icon">🏆</span> Top 20, Heading For The Future Project: E-commerce 2025</li>
+                        <li><span class="icon">🏆</span> "Student of 5 Merits" at City Level (2024-2025)</li>
+                        <li><span class="icon">🏆</span> "Student of 5 Merits" at University Level (2024-2025)</li>
+                    </ul>
+                </div>
+
+                <div class="skills-section">
+                    <h3>Skills & Tools</h3>
+                    
+                    <div class="skill-category">
+                        <h4>Data & Programming</h4>
+                        <div class="tags-container">
+                            <span class="tech-tag">Python (Basic)</span>
+                            <span class="tech-tag">SQL</span>
+                            <span class="tech-tag">Stata</span>
+                            <span class="tech-tag">SmartPLS</span>
+                            <span class="tech-tag">MS Excel</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h4>Business Analyst Operations</h4>
+                        <div class="tags-container">
+                            <span class="tech-tag">Process Modeling (Draw.io)</span>
+                            <span class="tech-tag">Requirement Management</span>
+                            <span class="tech-tag">A/B Testing</span>
+                            <span class="tech-tag">Data Labeling</span>
+                            <span class="tech-tag">Stakeholder Management</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h4>Languages</h4>
+                        <div class="tags-container">
+                            <span class="tech-tag">English</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="preview-group">
+                    <div class="preview-header">
+                        <h3>Work Experience Preview</h3>
+                        <span class="view-all" onclick="openTab('experience')">View all →</span>
+                    </div>
+                    <div class="horizontal-scroller">
+                        <div class="preview-card" onclick="openTab('experience')">
+                            <h4>Bellsystem24 Vietnam</h4>
+                            <p class="preview-role">Recruitment Intern</p>
+                            <p class="preview-date">07/2024 - 09/2024</p>
+                        </div>
+                        <div class="preview-card" onclick="openTab('experience')">
+                            <h4>SACE Education Vietnam</h4>
+                            <p class="preview-role">IELTS Teaching Assistant</p>
+                            <p class="preview-date">09/2022 - 02/2023</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="preview-group">
+                    <div class="preview-header">
+                        <h3>Extracurriculars Preview</h3>
+                        <span class="view-all" onclick="openTab('experience')">View all →</span>
+                    </div>
+                    <div class="horizontal-scroller">
+                        <div class="preview-card" onclick="openTab('experience')">
+                            <h4>FTU Student Association</h4>
+                            <p class="preview-role">Event Organizer</p>
+                            <p class="preview-date">10/2022 - 10/2025</p>
+                        </div>
+                        <div class="preview-card" onclick="openTab('experience')">
+                            <h4>Book and Action - BnA Hanoi</h4>
+                            <p class="preview-role">RnD Member</p>
+                            <p class="preview-date">10/2022 - 06/2023</p>
+                        </div>
+                        <div class="preview-card" onclick="openTab('experience')">
+                            <h4>Book and Action Club</h4>
+                            <p class="preview-role">President</p>
+                            <p class="preview-date">10/2019 - 01/2022</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="preview-group">
+                    <div class="preview-header">
+                        <h3>Project Preview</h3>
+                        <span class="view-all" onclick="openTab('projects')">View all →</span>
+                    </div>
+                    <div class="horizontal-scroller">
+                        <div class="preview-card project-preview-card" onclick="openTab('projects')">
+                            <h4>Scientific Research (3rd Prize)</h4>
+                            <p class="preview-role">PGDA & Corporate Financial Constraints</p>
+                            <p class="preview-date">2024 - 2025</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="experience" class="tab-content">
+                <h2 class="section-title">Work Experience</h2>
+                <div class="detailed-timeline">
+                    <div class="exp-item">
+                        <div class="exp-header">
+                            <h3>Bellsystem24 Vietnam | Recruitment Intern</h3>
+                            <span class="exp-date">07/2024 - 09/2024</span>
+                        </div>
+                        <ul>
+                            <li><strong>Management Dashboards:</strong> Designed automated reporting systems on Excel to track key metrics (Conversion rate, Source effectiveness, Lead time).</li>
+                            <li><strong>Social Media Optimization:</strong> Researched algorithms of Threads and Facebook, executing A/B Testing to increase organic views by over 550% and generate nearly 400 CVs per month.</li>
+                            <li><strong>Funnel Management:</strong> Managed the recruitment funnel by contacting candidates, screening, coordinating interviews, and successfully recruiting 17 official employees.</li>
+                        </ul>
+                    </div>
+
+                    <div class="exp-item">
+                        <div class="exp-header">
+                            <h3>SACE Education Vietnam | IELTS Collaborator & Teaching Assistant</h3>
+                            <span class="exp-date">09/2022 - 02/2023</span>
+                        </div>
+                        <ul>
+                            <li><strong>Material Development:</strong> Researched and compiled teaching materials for IELTS classes (Band 5.5 - 6.5), ensuring content strictly adhered to requirements and output goals.</li>
+                            <li><strong>Management & Reporting:</strong> Supported classroom management and developed periodic academic progress reports for management and parents.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h2 class="section-title">Extracurricular Activities</h2>
+                <div class="detailed-timeline">
+                    <div class="exp-item">
+                        <div class="exp-header">
+                            <h3>Foreign Trade University Student Association | Event Organizer</h3>
+                            <span class="exp-date">10/2022 - 10/2025</span>
+                        </div>
+                        <ul>
+                            <li>Planned events, brainstormed ideas, and directly executed activities for the FTU Student Association.</li>
+                            <li>Organized prominent events with over 1000 participants, including "Duyen dang Ngoai thuong" (2023) and the university-wide blood donation festival "Happy Day" (2022, 2023, 2024).</li>
+                        </ul>
+                    </div>
+
+                    <div class="exp-item">
+                        <div class="exp-header">
+                            <h3>Book and Action Project (BnA Hanoi) | RnD Member</h3>
+                            <span class="exp-date">10/2022 - 06/2023</span>
+                        </div>
+                        <ul>
+                            <li><strong>Negotiation:</strong> Contacted high school administrators across Northern Vietnam to establish new clubs.</li>
+                            <li><strong>Management:</strong> Supervised and supported 10 active clubs in Hai Phong.</li>
+                            <li><strong>Process Standardization:</strong> Standardized processes, developed and transferred operational guideline documents.</li>
+                        </ul>
+                    </div>
+
+                    <div class="exp-item">
+                        <div class="exp-header">
+                            <h3>Book and Action Club - Hung Yen High School | President</h3>
+                            <span class="exp-date">10/2019 - 01/2022</span>
+                        </div>
+                        <ul>
+                            <li>Managed 40+ members, developed operational plans, and managed budgets and resources for the entire club.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="projects" class="tab-content">
+                <h2 class="section-title">Featured Projects</h2>
+                <div class="project-grid">
+                    <div class="project-card-full" onclick="openModal('project1-modal')">
+                        <div class="p-info">
+                            <h3>Provincial government digital attention and corporate financial constraints in VIETNAM: the role of digitalization and ESG</h3>
+                            <span class="badge">🏆 3rd Prize - University Level FTU Student Scientific Research (2024-2025)</span>
+                            <p class="click-hint">Hover and click to view project details & methodology</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="contact" class="tab-content">
+                <h2 class="section-title">Contact Information</h2>
+                <div class="contact-container">
+                    <div class="contact-box">
+                        <p><strong>Email:</strong> quynhchipt.work@gmail.com</p>
+                        <p><strong>LinkedIn:</strong> <a href="https://linkedin.com/in/elliequynhchi/" target="_blank">linkedin.com/in/elliequynhchi/</a></p>
+                    </div>
+
+                    <form action="https://formspree.io/f/mrerekdk" method="POST" class="main-contact-form">
+                        <input type="text" name="name" placeholder="Your Full Name" required>
+                        <input type="email" name="email" placeholder="Your Email" required>
+                        <textarea name="message" rows="5" placeholder="Message content..." required></textarea>
+                        <button type="submit">Submit Inquiry</button>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="project1-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('project1-modal')">&times;</span>
+            <h2>Provincial government digital attention and corporate financial constraints in VIETNAM: the role of digitalization and ESG</h2>
+            <hr>
+
+            <div class="project-overview" style="margin-bottom: 2rem;">
+                <p><strong>Overview:</strong> This independent research explores the influence of provincial government digital attention (PGDA) on corporate financial constraints, highlighting the mediating role of digitalization and the moderating role of ESG within the context of Vietnam's evolving digital landscape. </p>
+            </div>
+            
+            <div class="publication-highlight" style="background: var(--highlight-bg); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; border-left: 5px solid var(--accent-color);">
+                <h3 style="margin-top: 0; color: var(--accent-color); font-size: 1.2rem;">📰 Recognition & Publication</h3>
+                <p style="margin: 0.5rem 0; color: var(--text-dark); font-weight: 500;">
+                    The findings of this research were officially published in:
+                </p>
+                <p style="font-style: italic; color: var(--text-muted); margin-bottom: 1rem;">
+                    "Ảnh hưởng của chuyển đổi số đến hạn chế tài chính trong các công ty niêm yết tại Việt Nam" 
+                    (The Impact of Digital Transformation on Financial Constraints in Listed Companies in Vietnam) 
+                    - <strong>Tạp chí Tài chính Doanh nghiệp (Corporate Finance Magazine)</strong>, March 2025 Issue.
+                </p>
+                <a href="https://taichinhdoanhnghiep.net.vn/tap-chi-tai-chinh-doanh-nghiep-so-thang-3-2025-i93.html#carousel__slide23" target="_blank" style="display: inline-block; color: var(--accent-color); text-decoration: none; font-weight: 600; border: 1px solid var(--accent-color); padding: 6px 15px; border-radius: 6px; transition: 0.3s;">
+                    📖 View Journal Publication
+                </a>
+                <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-dark);">
+                    🏆 This project was also awarded the <strong>3rd Prize</strong> in the University-level Scientific Research Competition (2024-2025).
+                </p>
+            </div>
+    
+            <h3 class="modal-subtitle">Analytical Insights & BA Mindset:</h3>
+            <ul>
+                <li><strong>Data Interpretation & Root-Cause Analysis:</strong> Addressed the counter-intuitive statistical finding that Provincial Government Digital Attention (PGDA) actually <em>increases</em> short-term corporate financial constraints. Conducted root-cause analysis to identify that top-down digital mandates force enterprises into rapid, capital-intensive transitions, draining their immediate liquidity.</li>
+                <li><strong>Strategic Problem-Solving:</strong> Translated complex econometric results into a practical business problem, demonstrating how external policy compliance creates internal financial bottlenecks and "sunk cost" burdens for companies.</li>
+                <li><strong>Actionable Recommendations:</strong> Synthesized data to prove that integrating robust ESG practices acts as a crucial moderator, allowing businesses to unlock alternative financing channels and alleviate the financial stress caused by forced digitalization.</li>
+            </ul>
+    
+            <h3 class="modal-subtitle">Methodology & Execution:</h3>
+            <ul>
+                <li><strong>Data Collection (Python):</strong> Programmed scripts to perform web scraping across 47 provincial portals and annual reports of 400 listed companies to quantify digital attention keywords.</li>
+                <li><strong>Econometric Analysis (Stata):</strong> Utilized advanced models (System-GMM, 2SLS) to ensure robustness in identifying causation, mediation, and moderation effects.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Authentication Modal (Sign In / Sign Up) -->
+    <div id="auth-modal" class="modal">
+        <div class="modal-content" style="max-width: 450px; margin: 10% auto; padding: 2.5rem;">
+            <span class="close-btn" onclick="closeModal('auth-modal')">&times;</span>
+            
+            <div id="auth-forms-container">
+                <div class="auth-tabs">
+                    <button class="auth-tab-btn active" id="login-tab-btn" onclick="showAuthForm('login')">Sign In</button>
+                    <button class="auth-tab-btn" id="register-tab-btn" onclick="showAuthForm('register')">Sign Up</button>
+                </div>
+                
+                <form id="login-form" class="auth-form" onsubmit="handleAuthSubmit(event, 'login')">
+                    <input type="text" id="login-username" placeholder="Username" required>
+                    <input type="password" id="login-password" placeholder="Password" required>
+                    <button type="submit" class="auth-submit-btn">Sign In</button>
+                    <div id="login-message" class="auth-message"></div>
+                </form>
+                
+                <form id="register-form" class="auth-form" style="display: none;" onsubmit="handleAuthSubmit(event, 'register')">
+                    <input type="text" id="register-username" placeholder="Choose Username" required>
+                    <input type="password" id="register-password" placeholder="Choose Password" required>
+                    <button type="submit" class="auth-submit-btn">Create Account</button>
+                    <div id="register-message" class="auth-message"></div>
+                </form>
+            </div>
+
+            <div id="logged-in-container" style="display: none;">
+                <div class="welcome-box">
+                    <span class="welcome-avatar">👑</span>
+                    <h3 id="welcome-message">Welcome!</h3>
+                    <p>You have successfully authenticated using Cloudflare D1 Database.</p>
+                    <button onclick="handleLogout()" class="logout-btn">Sign Out</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Authentication Modal (Sign In / Sign Up) -->
+    <div id="auth-modal" class="modal">
+        <div class="modal-content" style="max-width: 450px; margin: 10% auto; padding: 2.5rem;">
+            <span class="close-btn" onclick="closeModal('auth-modal')">&times;</span>
+            
+            <div id="auth-forms-container">
+                <div class="auth-tabs">
+                    <button class="auth-tab-btn active" id="login-tab-btn" onclick="showAuthForm('login')">Sign In</button>
+                    <button class="auth-tab-btn" id="register-tab-btn" onclick="showAuthForm('register')">Sign Up</button>
+                </div>
+                
+                <form id="login-form" class="auth-form" onsubmit="handleAuthSubmit(event, 'login')">
+                    <input type="text" id="login-username" placeholder="Username" required>
+                    <input type="password" id="login-password" placeholder="Password" required>
+                    <button type="submit" class="auth-submit-btn">Sign In</button>
+                    <div id="login-message" class="auth-message"></div>
+                </form>
+                
+                <form id="register-form" class="auth-form" style="display: none;" onsubmit="handleAuthSubmit(event, 'register')">
+                    <input type="text" id="register-username" placeholder="Choose Username" required>
+                    <input type="password" id="register-password" placeholder="Choose Password" required>
+                    <button type="submit" class="auth-submit-btn">Create Account</button>
+                    <div id="register-message" class="auth-message"></div>
+                </form>
+            </div>
+
+            <div id="logged-in-container" style="display: none;">
+                <div class="welcome-box">
+                    <span class="welcome-avatar">👑</span>
+                    <h3 id="welcome-message">Welcome!</h3>
+                    <p>You have successfully authenticated using Cloudflare D1 Database.</p>
+                    <button onclick="handleLogout()" class="logout-btn">Sign Out</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openTab(tabName) {
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(tab => tab.classList.remove('active'));
+
+            const navButtons = document.querySelectorAll('.nav-btn');
+            navButtons.forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById(tabName).classList.add('active');
+            
+            navButtons.forEach(btn => {
+                if(btn.innerText.toLowerCase() === tabName.toLowerCase()) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            document.querySelector('.main-content').scrollTop = 0;
+        }
+
+        function openModal(modalId) { 
+            document.getElementById(modalId).style.display = 'block'; 
+        }
+
+        function closeModal(modalId) { 
+            document.getElementById(modalId).style.display = 'none'; 
+        }
+
+        window.onclick = function(event) { 
+            if (event.target.className === 'modal') { 
+                event.target.style.display = 'none'; 
+            } 
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'pink' ? 'blue' : 'pink';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeButton(newTheme);
+        }
+
+        function updateThemeButton(theme) {
+            const btn = document.getElementById('theme-toggle');
+            if (btn) {
+                btn.innerHTML = theme === 'pink' ? '🌸 Pink Theme' : '💙 Blue Theme';
+            }
+        }
+
+        // Initialize button text on load
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'blue';
+            updateThemeButton(savedTheme);
+            
+            const savedSession = localStorage.getItem('user-session');
+            updateSessionView(savedSession);
+        });
+
+        // AUTHENTICATION INTERACTION LOGIC
+        function showAuthForm(type) {
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            const loginBtn = document.getElementById('login-tab-btn');
+            const registerBtn = document.getElementById('register-tab-btn');
+            
+            if (type === 'login') {
+                loginForm.style.display = 'flex';
+                registerForm.style.display = 'none';
+                loginBtn.classList.add('active');
+                registerBtn.classList.remove('active');
+            } else {
+                loginForm.style.display = 'none';
+                registerForm.style.display = 'flex';
+                loginBtn.classList.remove('active');
+                registerBtn.classList.add('active');
+            }
+        }
+
+        async function handleAuthSubmit(event, type) {
+            event.preventDefault();
+            const messageDiv = document.getElementById(`${type}-message`);
+            messageDiv.className = 'auth-message';
+            messageDiv.innerHTML = '';
+            
+            const usernameInput = document.getElementById(`${type}-username`);
+            const passwordInput = document.getElementById(`${type}-password`);
+            
+            const username = usernameInput.value;
+            const password = passwordInput.value;
+            
+            try {
+                const response = await fetch(`/api/auth?action=${type}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    messageDiv.className = 'auth-message error';
+                    messageDiv.innerHTML = data.error || 'An error occurred.';
+                    return;
+                }
+                
+                messageDiv.className = 'auth-message success';
+                messageDiv.innerHTML = data.message;
+                
+                if (type === 'register') {
+                    usernameInput.value = '';
+                    passwordInput.value = '';
+                    setTimeout(() => {
+                        showAuthForm('login');
+                        const loginUser = document.getElementById('login-username');
+                        if (loginUser) loginUser.value = username;
+                    }, 1500);
+                } else {
+                    // Login successful!
+                    localStorage.setItem('user-session', data.user);
+                    updateSessionView(data.user);
+                    
+                    // Close modal and trigger animations
+                    setTimeout(() => {
+                        closeModal('auth-modal');
+                    }, 800);
+                    startFireworks();
+                    triggerMascotBouncing();
+                }
+            } catch (err) {
+                messageDiv.className = 'auth-message error';
+                messageDiv.innerHTML = 'Could not connect to the authentication server.';
+            }
+        }
+
+        function updateSessionView(username) {
+            const authContainer = document.getElementById('auth-forms-container');
+            const welcomeContainer = document.getElementById('logged-in-container');
+            const welcomeMsg = document.getElementById('welcome-message');
+            const navBtn = document.getElementById('auth-nav-btn');
+            
+            if (username) {
+                authContainer.style.display = 'none';
+                welcomeContainer.style.display = 'block';
+                welcomeMsg.innerHTML = `Hi, ${username}! ✨`;
+                if (navBtn) navBtn.innerHTML = `👤 Hi, ${username}`;
+            } else {
+                authContainer.style.display = 'block';
+                welcomeContainer.style.display = 'none';
+                if (navBtn) navBtn.innerHTML = `👤 Sign In`;
+            }
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('user-session');
+            updateSessionView(null);
+            document.getElementById('login-username').value = '';
+            document.getElementById('login-password').value = '';
+            document.getElementById('login-message').innerHTML = '';
+        }
+
+        // MASCOT SCREEN-BOUNCING ANIMATION
+        function triggerMascotBouncing() {
+            const mascot = document.getElementById('mascot-container');
+            if (!mascot) return;
+            
+            mascot.style.display = 'flex';
+            
+            const width = 150;
+            const height = 150;
+            
+            // Start at a random screen location
+            let x = Math.random() * (window.innerWidth - width);
+            let y = Math.random() * (window.innerHeight - height);
+            
+            // Soft random bouncing speeds
+            let vx = (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 2 + 2);
+            let vy = (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 2 + 2);
+            
+            let angle = 0;
+            let animationFrameId;
+            const startTime = Date.now();
+            
+            function update() {
+                const elapsed = Date.now() - startTime;
+                
+                x += vx;
+                y += vy;
+                angle += 1.5; // slower, smoother rotation speed
+                
+                // Bounce left/right
+                if (x <= 0) {
+                    x = 0;
+                    vx = -vx;
+                } else if (x + width >= window.innerWidth) {
+                    x = window.innerWidth - width;
+                    vx = -vx;
+                }
+                
+                // Bounce top/bottom
+                if (y <= 0) {
+                    y = 0;
+                    vy = -vy;
+                } else if (y + height >= window.innerHeight) {
+                    y = window.innerHeight - height;
+                    vy = -vy;
+                }
+                
+                mascot.style.left = `${x}px`;
+                mascot.style.top = `${y}px`;
+                mascot.style.transform = `rotate(${angle}deg)`;
+                
+                if (elapsed < 10000) {
+                    animationFrameId = requestAnimationFrame(update);
+                } else {
+                    cancelAnimationFrame(animationFrameId);
+                    mascot.style.display = 'none';
+                    triggerPrinceCat();
+                }
+            }
+            
+            requestAnimationFrame(update);
+        }
+
+        // PRINCE CAT BROOMSTICK PRESENTATION
+        function triggerPrinceCat() {
+            const prince = document.getElementById('prince-cat-container');
+            if (!prince) return;
+            
+            prince.classList.remove('prince-active');
+            const bubble = prince.querySelector('.prince-bubble');
+            if (bubble) bubble.classList.remove('show-bubble');
+            
+            void prince.offsetWidth; // force reflow
+            prince.classList.add('prince-active');
+            
+            // Present flower and message after flying in
+            setTimeout(() => {
+                if (bubble) bubble.classList.add('show-bubble');
+            }, 3000);
+            
+            // Fade out after 10s total presentation
+            setTimeout(() => {
+                prince.classList.remove('prince-active');
+                if (bubble) bubble.classList.remove('show-bubble');
+            }, 10000);
+        }
+
+        // CANVAS FIREWORKS ENGINE (10s and MORE FIREWORKS)
+        function startFireworks() {
+            const canvas = document.getElementById('fireworks-canvas');
+            if (!canvas) return;
+            canvas.style.display = 'block';
+            const ctx = canvas.getContext('2d');
+            let animationFrameId;
+            
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resize);
+            resize();
+            
+            const particles = [];
+            const colors = ['#FF4D6D', '#3F8EFC', '#FFB020', '#A0CFFF', '#FFD1DC', '#4CAF50', '#E040FB'];
+            
+            class Particle {
+                constructor(x, y, color) {
+                    this.x = x;
+                    this.y = y;
+                    this.color = color;
+                    this.angle = Math.random() * Math.PI * 2;
+                    this.speed = Math.random() * 5 + 3.5;
+                    this.friction = 0.95;
+                    this.gravity = 0.08;
+                    this.alpha = 1;
+                    this.decay = Math.random() * 0.015 + 0.01;
+                }
+                update() {
+                    this.speed *= this.friction;
+                    this.x += Math.cos(this.angle) * this.speed;
+                    this.y += Math.sin(this.angle) * this.speed + this.gravity;
+                    this.alpha -= this.decay;
+                }
+                draw() {
+                    ctx.save();
+                    ctx.globalAlpha = this.alpha;
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                }
+            }
+            
+            function createExplosion(x, y) {
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                for (let i = 0; i < 65; i++) {
+                    particles.push(new Particle(x, y, color));
+                }
+            }
+            
+            let lastLaunch = 0;
+            function loop(timestamp) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // launch fireworks more frequently (every 160ms)
+                if (timestamp - lastLaunch > 160) {
+                    createExplosion(
+                        Math.random() * canvas.width, 
+                        Math.random() * (canvas.height * 0.55) + canvas.height * 0.05
+                    );
+                    lastLaunch = timestamp;
+                }
+                
+                for (let i = particles.length - 1; i >= 0; i--) {
+                    particles[i].update();
+                    if (particles[i].alpha <= 0) {
+                        particles.splice(i, 1);
+                    } else {
+                        particles[i].draw();
+                    }
+                }
+                
+                animationFrameId = requestAnimationFrame(loop);
+            }
+            
+            requestAnimationFrame(loop);
+            
+            // Runs for 10 seconds
+            setTimeout(() => {
+                cancelAnimationFrame(animationFrameId);
+                window.removeEventListener('resize', resize);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                canvas.style.display = 'none';
+            }, 10000);
+        }
+    </script>
+</body>
+</html>
